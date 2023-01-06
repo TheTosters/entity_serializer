@@ -1,0 +1,19 @@
+name: entity_serializer
+description: CLI and Builder tool for creating entities classes and serializers from xml description.
+version: 0.0.1
+
+environment:
+  sdk: '>=2.18.5 <3.0.0'
+
+dependencies:
+  xml: ^6.2.2
+  args: ^2.3.1
+  path: ^1.8.0
+  recase: ^4.1.0
+  collection: ^1.17.0
+  #Just for test
+  copy_with_extension: ^5.0.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
