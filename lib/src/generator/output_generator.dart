@@ -13,13 +13,23 @@ class OutputGenerator {
   final bool splitByFiles;
   final String? outputPath;
   final ModelGenerator models;
+  final void Function(String)? outputConsumer;
 
-  OutputGenerator({required this.splitByFiles, required this.outputPath, required this.models});
+  OutputGenerator({
+    required this.splitByFiles,
+    required this.outputPath,
+    required this.models,
+  }) : outputConsumer = null;
+
+  OutputGenerator.forBuilder({
+    required this.outputConsumer,
+    required this.outputPath,
+    required this.models,
+  }) : splitByFiles = false;
 
   void generateOutput() {
     if (splitByFiles) {
       _generateSeparateFiles();
-
     } else {
       _generateSingleFile();
     }
@@ -79,6 +89,10 @@ class OutputGenerator {
   }
 
   void _writeToOutput({required StringBuffer buffer, Entity? entity, Serializer? serializer}) {
+    if (outputConsumer != null) {
+      outputConsumer!(buffer.toString());
+      return;
+    }
     if (outputPath != null) {
       late String path;
       if (entity != null) {
@@ -132,5 +146,4 @@ class OutputGenerator {
     final dir = _findOutputDir();
     return join(dir, "${name.snakeCase}.dart");
   }
-
 }

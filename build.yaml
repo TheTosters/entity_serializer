@@ -1,0 +1,13 @@
+builders:
+
+  entitySerializerBuilder:
+    import: "package:entity_serializer/builder.dart"
+    builder_factories: ["entitySerializerBuilder"]
+    build_extensions: {".xml": [".dart"]}
+    auto_apply: root_package
+    build_to: source
+    defaults:
+      options:
+        input_files_extension: xml
+        input_folder: data_model
+        output_folder: src/model
