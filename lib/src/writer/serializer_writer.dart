@@ -15,7 +15,8 @@ class SerializerWriter {
 
   SerializerWriter(this.serializer, this.entities);
 
-  void writeImports(StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void writeImports(
+      StringBuffer buffer, String Function(String name) createEntityFilePath) {
     for (var ent in entities) {
       final path = createEntityFilePath(ent.name);
       buffer.writeln("import '$path';");
@@ -49,7 +50,8 @@ class SerializerWriter {
     mapExtWriter.write(buffer);
 
     if (processors.any((element) => element.usedOnList)) {
-      final writer = ListExtensionWriter(serializer: serializer, processors: processors);
+      final writer =
+          ListExtensionWriter(serializer: serializer, processors: processors);
       writer.write(buffer);
     }
   }
@@ -65,7 +67,8 @@ class SerializerWriter {
         continue;
       }
       String name = "${serializer.name}_processor_${processors.length}";
-      processors.add(ValuesProcessor(name: name.pascalCase, field: f, entities: entities));
+      processors.add(
+          ValuesProcessor(name: name.pascalCase, field: f, entities: entities));
     }
   }
 

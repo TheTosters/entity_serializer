@@ -5,7 +5,8 @@ import 'package:xml/xml.dart';
 
 import '../../entity_serializer.dart';
 
-Builder entitySerializerBuilder(BuilderOptions options) => EntitySerializerBuilder(options);
+Builder entitySerializerBuilder(BuilderOptions options) =>
+    EntitySerializerBuilder(options);
 
 class EntitySerializerBuilder implements Builder {
   final BuilderOptions options;
@@ -15,7 +16,8 @@ class EntitySerializerBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     final outPath = buildStep.allowedOutputs.first.path;
-    final wrapper = GeneratorWrapper(await buildStep.readAsString(buildStep.inputId), outPath);
+    final wrapper = GeneratorWrapper(
+        await buildStep.readAsString(buildStep.inputId), outPath);
 
     final output = AssetId(buildStep.inputId.package, outPath);
     return buildStep.writeAsString(output, wrapper.process());
@@ -25,7 +27,8 @@ class EntitySerializerBuilder implements Builder {
 
   String get _getInputExt => options.config["input_files_extension"] ?? "xml";
 
-  String get _getOutputFolder => options.config["output_folder"] ?? "lib/src/model";
+  String get _getOutputFolder =>
+      options.config["output_folder"] ?? "lib/src/model";
 
   @override
   Map<String, List<String>> get buildExtensions => {

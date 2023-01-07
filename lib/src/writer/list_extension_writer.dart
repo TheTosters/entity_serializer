@@ -1,4 +1,3 @@
-
 import '../model/serializer.dart';
 import '../values_processor.dart';
 
@@ -12,16 +11,18 @@ class ListExtensionWriter {
   });
 
   void write(StringBuffer buffer) {
-    buffer.writeln("extension ${serializer.name}SerializerListExt on List<dynamic> {");
+    buffer.writeln(
+        "extension ${serializer.name}SerializerListExt on List<dynamic> {");
     for (final processor in processors) {
-      _writeProcessor(buffer: buffer, processor:processor);
+      _writeProcessor(buffer: buffer, processor: processor);
       buffer.writeln();
-      _writeBuilder(buffer: buffer, processor:processor);
+      _writeBuilder(buffer: buffer, processor: processor);
     }
     buffer.writeln("}\n");
   }
 
-  void _writeProcessor({required StringBuffer buffer, required ValuesProcessor processor}) {
+  void _writeProcessor(
+      {required StringBuffer buffer, required ValuesProcessor processor}) {
     if (!processor.usedOnList) {
       return;
     }
@@ -29,7 +30,8 @@ class ListExtensionWriter {
     buffer.write("    ");
     int count = processor.types.length;
     for (final type in processor.types) {
-      buffer.write("if (e is $type) {e = e.to${serializer.name}(decorate: true);}");
+      buffer.write(
+          "if (e is $type) {e = e.to${serializer.name}(decorate: true);}");
       count--;
       if (count > 0) {
         buffer.write("\n    else ");
@@ -39,7 +41,8 @@ class ListExtensionWriter {
     buffer.writeln("  }).toList();\n");
   }
 
-  void _writeBuilder({required StringBuffer buffer, required ValuesProcessor processor}) {
+  void _writeBuilder(
+      {required StringBuffer buffer, required ValuesProcessor processor}) {
     if (!processor.usedOnList) {
       return;
     }
@@ -51,7 +54,8 @@ class ListExtensionWriter {
     buffer.write("      ");
     for (final type in processor.types) {
       buffer.writeln("if (className == '$type') {");
-      buffer.write("        e = (e as Map<String, dynamic>).to${type}Using${serializer.name}();");
+      buffer.write(
+          "        e = (e as Map<String, dynamic>).to${type}Using${serializer.name}();");
       count--;
       if (count > 0) {
         buffer.write("\n      } else ");

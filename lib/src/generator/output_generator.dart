@@ -36,7 +36,7 @@ class OutputGenerator {
   }
 
   void _writeCustomImports(StringBuffer buffer) {
-    for(final i in models.imports) {
+    for (final i in models.imports) {
       buffer.writeln("import '${i.package}';");
     }
   }
@@ -89,7 +89,8 @@ class OutputGenerator {
     }
     out.writeln();
     if (needAutoGenImport) {
-      final path = basename(_createSingleFilePath()).replaceFirst(".dart", ".g.dart");
+      final path =
+          basename(_createSingleFilePath()).replaceFirst(".dart", ".g.dart");
       out.writeln("part '$path';");
       out.writeln();
     }
@@ -97,7 +98,8 @@ class OutputGenerator {
     _writeToOutput(buffer: out);
   }
 
-  void _writeToOutput({required StringBuffer buffer, Entity? entity, Serializer? serializer}) {
+  void _writeToOutput(
+      {required StringBuffer buffer, Entity? entity, Serializer? serializer}) {
     if (outputConsumer != null) {
       outputConsumer!(buffer.toString());
       return;

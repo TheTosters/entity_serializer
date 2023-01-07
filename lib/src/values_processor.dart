@@ -10,7 +10,10 @@ class ValuesProcessor {
   bool usedOnMap = false;
   Set<String> types = {};
 
-  ValuesProcessor({required this.name, required Field field, required List<Entity> entities}) {
+  ValuesProcessor(
+      {required this.name,
+      required Field field,
+      required List<Entity> entities}) {
     if (field.expectEntities.isEmpty) {
       //accept all possible known entities
       types.addAll(entities.map((e) => e.name));
@@ -22,6 +25,6 @@ class ValuesProcessor {
   }
 
   bool match(Field f, bool exact) =>
-      (consumesAll && !exact) || SetEquality<String>().equals(types, f.expectEntities.toSet());
-
+      (consumesAll && !exact) ||
+      SetEquality<String>().equals(types, f.expectEntities.toSet());
 }

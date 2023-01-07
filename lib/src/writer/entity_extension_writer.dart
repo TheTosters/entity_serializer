@@ -24,7 +24,8 @@ class EntityExtensionWriter {
   }
 
   void _writeSerializer(StringBuffer buffer) {
-    buffer.writeln("  Map<String, dynamic> to${serializer.name}({bool decorate=false}) {");
+    buffer.writeln(
+        "  Map<String, dynamic> to${serializer.name}({bool decorate=false}) {");
     buffer.writeln("    return {");
     buffer.writeln("      if (decorate) '_c': '${entity.name}', ");
     //process for collections serialization
@@ -80,7 +81,8 @@ class EntityExtensionWriter {
           final processed = serializer.handleSerialization(f.type, f.name);
           buffer.writeln("      '${f.name}': $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
-          buffer.writeln("      '${f.name}': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+          buffer.writeln(
+              "      '${f.name}': ${f.name}.to${serializer.name}(), /*ENTITY*/");
         } else {
           buffer.writeln("      '${f.name}': ${f.name}, /*DART TYPE*/");
         }

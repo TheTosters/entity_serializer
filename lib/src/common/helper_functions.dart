@@ -1,11 +1,11 @@
-
 String dateTimeToIsoStr(DateTime date) => date.toIso8601String();
 
 DateTime dateTimeFromIsoStr(String data) => DateTime.parse(data);
 
 int dateTimeToEpoc(DateTime date) => date.millisecondsSinceEpoch;
 
-DateTime dateTimeFromEpoc(int epocMillis) => DateTime.fromMillisecondsSinceEpoch(epocMillis);
+DateTime dateTimeFromEpoc(int epocMillis) =>
+    DateTime.fromMillisecondsSinceEpoch(epocMillis);
 
 Duration durationFromIntSec(int inValue) => Duration(seconds: inValue);
 

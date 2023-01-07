@@ -16,7 +16,9 @@ ArgParser describeArguments() {
     ..addFlag(help, abbr: 'h', negatable: false, hide: true)
     ..addOption(input, abbr: "i", help: "Path to the input xml file")
     ..addOption(output,
-        abbr: "o", help: "Path to the output dart file. Prints to console if not specified")
+        abbr: "o",
+        help:
+            "Path to the output dart file. Prints to console if not specified")
     ..addFlag(
       splitByFiles,
       abbr: 's',
@@ -66,4 +68,3 @@ ${argsParser.usage}""",
     print("Done!");
   }
 }
-

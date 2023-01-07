@@ -1,4 +1,3 @@
-
 import '../model/entity.dart';
 import '../model/field.dart';
 
@@ -10,18 +9,20 @@ class EntityWriter {
   void writeExternalImports(StringBuffer buffer) {
     Set<String> imports = {};
     collectExternalImports(imports);
-    for(final import in imports) {
+    for (final import in imports) {
       buffer.writeln(import);
     }
   }
 
   void collectExternalImports(Set<String> imports) {
     if (entity.copyWith) {
-      imports.add("import 'package:copy_with_extension/copy_with_extension.dart';");
+      imports.add(
+          "import 'package:copy_with_extension/copy_with_extension.dart';");
     }
   }
 
-  void writeModelImports(StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void writeModelImports(
+      StringBuffer buffer, String Function(String name) createEntityFilePath) {
     for (var dep in entity.dependencies) {
       final path = createEntityFilePath(dep);
       buffer.writeln("import '$path';");
@@ -29,9 +30,11 @@ class EntityWriter {
     buffer.writeln();
   }
 
-  void writeAutoGenImports(StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void writeAutoGenImports(
+      StringBuffer buffer, String Function(String name) createEntityFilePath) {
     if (entity.copyWith) {
-      final path = createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
+      final path =
+          createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
       buffer.writeln("part '$path';");
       buffer.writeln();
     }
@@ -42,7 +45,7 @@ class EntityWriter {
       buffer.writeln("@CopyWith()");
     }
     buffer.writeln('class ${entity.name} {');
-    for(var f in entity.fields) {
+    for (var f in entity.fields) {
       _writeField(f, buffer);
     }
     buffer.writeln();
@@ -59,7 +62,8 @@ class EntityWriter {
     if (f.isList) {
       buffer.writeln("  ${fStr}List<${f.valueType}>$optStr ${f.name};");
     } else if (f.isMap) {
-      buffer.writeln("  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
+      buffer.writeln(
+          "  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
     } else {
       //plain field
       buffer.writeln("  $fStr${f.type}$optStr ${f.name};");
@@ -68,7 +72,7 @@ class EntityWriter {
 
   void _writeConstructor(Entity entity, StringBuffer buffer) {
     buffer.writeln("  ${entity.name}({");
-    for(final f in entity.fields) {
+    for (final f in entity.fields) {
       if (f.isOptional) {
         buffer.writeln("    this.${f.name},");
       } else {

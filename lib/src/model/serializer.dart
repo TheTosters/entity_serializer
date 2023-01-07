@@ -6,7 +6,8 @@ class Serializer {
 
   Serializer({required this.name});
 
-  void addSpecialization(String type, Specialization spec) => _specializations[type] = spec;
+  void addSpecialization(String type, Specialization spec) =>
+      _specializations[type] = spec;
 
   bool hasSpecialization(String type) => _specializations.containsKey(type);
 
@@ -17,7 +18,7 @@ class Serializer {
       _specializations[type]!.processDeserialization(variable);
 
   void collectImports(Set<String> imports) {
-    for(final spec in _specializations.values) {
+    for (final spec in _specializations.values) {
       final path = spec.getImportPath;
       if (path != null) {
         imports.add("import '$path';");

@@ -18,7 +18,8 @@ class SpecializationConvert extends Specialization {
   @override
   String processSerialization(String data) {
     if (serializationFunc == null) {
-      throw Exception("No serialization function is given for specialization but serialization"
+      throw Exception(
+          "No serialization function is given for specialization but serialization"
           " is requested for type $inType");
     }
     return "${serializationFunc!}($data)";
@@ -27,7 +28,8 @@ class SpecializationConvert extends Specialization {
   @override
   String processDeserialization(String data) {
     if (deserializationFunc == null) {
-      throw Exception("No deserialization function is given for specialization but deserialization"
+      throw Exception(
+          "No deserialization function is given for specialization but deserialization"
           " is requested for type $inType");
     }
     return "${deserializationFunc!}($data as $outType)";
