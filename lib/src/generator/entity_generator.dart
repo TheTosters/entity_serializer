@@ -26,7 +26,6 @@ class EntityGenerator {
 
   static Field _parseField(XmlElement node) {
     var name = node.name.toString().toLowerCase();
-    final fieldName = reqAttrValue(node, "name");
     var isOptional = name.startsWith("optional");
     if (isOptional) {
       name = name.substring("optional".length);
@@ -37,21 +36,44 @@ class EntityGenerator {
       case "int":
       case "bool":
       case "double":
-        result = Field(name: fieldName, type: name, isOptional: isOptional, isFinal: isFinal);
+        result = Field(
+          name: reqAttrValue(node, "name"),
+          type: name,
+          isOptional: isOptional,
+          isFinal: isFinal,
+        );
         break;
       case "datetime":
-        result = Field(name: fieldName, type: "DateTime", isOptional: isOptional, isFinal: isFinal);
+        result = Field(
+          name: reqAttrValue(node, "name"),
+          type: "DateTime",
+          isOptional: isOptional,
+          isFinal: isFinal,
+        );
         break;
       case "string":
-        result = Field(name: fieldName, type: "String", isOptional: isOptional, isFinal: isFinal);
+        result = Field(
+          name: reqAttrValue(node, "name"),
+          type: "String",
+          isOptional: isOptional,
+          isFinal: isFinal,
+        );
         break;
       case "list":
-        result =
-            _parseListField(name: fieldName, optional: isOptional, node: node, isFinal: isFinal);
+        result = _parseListField(
+          name: reqAttrValue(node, "name"),
+          optional: isOptional,
+          node: node,
+          isFinal: isFinal,
+        );
         break;
       case "map":
-        result =
-            _parseMapField(name: fieldName, optional: isOptional, node: node, isFinal: isFinal);
+        result = _parseMapField(
+          name: reqAttrValue(node, "name"),
+          optional: isOptional,
+          node: node,
+          isFinal: isFinal,
+        );
         break;
       case "field":
         {
@@ -61,7 +83,7 @@ class EntityGenerator {
             varType = varType.substring(0, varType.length - 1);
           }
           result = Field(
-            name: fieldName,
+            name: reqAttrValue(node, "name"),
             isOptional: isOptional,
             type: varType,
             isFinal: isFinal,
@@ -72,7 +94,7 @@ class EntityGenerator {
         {
           var varType = node.name.toString().pascalCase;
           result = Field(
-            name: fieldName,
+            name: optAttrValue(node, "name", node.name.toString().camelCase)!,
             isOptional: isOptional,
             type: varType,
             isFinal: isFinal,
@@ -80,6 +102,8 @@ class EntityGenerator {
           break;
         }
     }
+    //optional things
+    result.comment = attrValue(node, "comment");
     return result;
   }
 

@@ -80,6 +80,7 @@ To create fields for newly created class child-nodes described later can be adde
 support following attributes:
 - name - required, tells how field should be named, apply to Dart language naming restrictions
 - final - optional, default: true. If set make class field `final`.
+- comment - optional, default:null. If set comment per field can be included into code
 
 example:
 ```xml

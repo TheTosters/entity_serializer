@@ -3,10 +3,10 @@
     <serializer name="Ser1"/>
 
     <class name="Book" copyWith="false">
-        <field name="author" type="Author"/>
+        <field name="author" type="Author" comment="Author of book"/>
         <field name="meta" type="Meta"/>
         <int name="pages"/>
-        <superMeta name="superMeta"/>
+        <superMeta/>
     </class>
 
     <class name="Author" copyWith="false">

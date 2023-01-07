@@ -15,6 +15,8 @@ class Field {
   //only those specified here are processed (reduce code for serializers)
   final List<String> expectEntities;
 
+  String? comment;
+
   static const Set<String> innerDartTypes = {"int", "bool", "double", "String", "Map", "List"};
 
   Field({required this.name, required this.type, required this.isOptional, required this.isFinal})

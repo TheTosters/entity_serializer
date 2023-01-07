@@ -7,6 +7,10 @@ int dateTimeToEpoc(DateTime date) => date.millisecondsSinceEpoch;
 
 DateTime dateTimeFromEpoc(int epocMillis) => DateTime.fromMillisecondsSinceEpoch(epocMillis);
 
+Duration durationFromIntSec(int inValue) => Duration(seconds: inValue);
+
+int durationToIntSec(Duration inValue) => inValue.inSeconds;
+
 bool asBool(String? val) {
   return val == "true" || val == "1";
 }

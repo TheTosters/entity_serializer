@@ -51,6 +51,9 @@ class EntityWriter {
   }
 
   void _writeField(Field f, StringBuffer buffer) {
+    if (f.comment != null) {
+      buffer.writeln("  ///${f.comment}");
+    }
     final fStr = f.isFinal ? "final " : "";
     final optStr = f.isOptional ? "?" : "";
     if (f.isList) {
