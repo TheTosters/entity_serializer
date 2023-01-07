@@ -150,7 +150,7 @@ Here is example of usage in xml
 </spec>
 ```
 
-### class children: collection - list
+#### class children: collection - list
 
 For Dart `List` type specialized node is required, it has all properties described above plus 
 mandatory attribute `innerType`, refer to this example:
@@ -167,7 +167,7 @@ It's worth noting that `innerType` can point to `dynamic` this will generate ext
 all data types class from this xml. If you want to limit class detection in dynamic list then 
 attribute `expectOnly` comes to play. You can specify only those types you want to be handled.
 
-### class children: collection - map
+#### class children: collection - map
 
 For Dart `Map` type specialized node is required, it has all properties described above plus
 two mandatory attributes `keyType` and `valueType`. Behaviour of `valueType` is this same as
@@ -183,7 +183,7 @@ two mandatory attributes `keyType` and `valueType`. Behaviour of `valueType` is 
 </class>
 ```
 
-### class children: field
+#### class children: field
 
 Most universal child node of class node is `field` which allows you to put variable of any type
 into class. It has two mandatory attributes `name` and `type`. And looks like:
@@ -196,7 +196,7 @@ into class. It has two mandatory attributes `name` and `type`. And looks like:
 </class>
 ```
 
-### class children: any name
+#### class children: any name
 
 If you want to use your custom data class as a type for variable in other classes just put it name.
 Please look into this small example:
