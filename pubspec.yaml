@@ -13,11 +13,7 @@ dependencies:
   path: ^1.8.0
   recase: ^4.1.0
   collection: ^1.17.0
-  analyzer: ^5.4.0
   build: ^2.3.1
-  #Just for test
-  copy_with_extension: ^5.0.0
-  glob: ^2.1.1
 
 dev_dependencies:
   lints: ^2.0.0

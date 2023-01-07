@@ -1,3 +1,4 @@
+import 'package:recase/recase.dart';
 import 'package:xml/xml.dart';
 
 import '../common/helper_functions.dart';
@@ -68,7 +69,16 @@ class EntityGenerator {
           break;
         }
       default:
-        throw Exception("Unknown class attribute with name `${node.name.toString()}`");
+        {
+          var varType = node.name.toString().pascalCase;
+          result = Field(
+            name: fieldName,
+            isOptional: isOptional,
+            type: varType,
+            isFinal: isFinal,
+          );
+          break;
+        }
     }
     return result;
   }

@@ -1,6 +1,3 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library entity_serializer;
 
 export 'src/generator/model_generator.dart';
