@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="SerializerA"/>
+    <serializer name="SerializerB"/>
+
+    <class name="OnlySerializerA" copyWith="false" serializers="SerializerA">
+        <int name="value"/>
+    </class>
+
+    <class name="OnlySerializerB" copyWith="false" serializers="SerializerB">
+        <int name="value"/>
+    </class>
+
+    <class name="BothSerializers" copyWith="false" serializers="SerializerA,SerializerB">
+        <int name="value"/>
+    </class>
+</spec>

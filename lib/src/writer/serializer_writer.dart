@@ -13,11 +13,13 @@ class SerializerWriter {
   final List<Entity> entities;
   final List<ValuesProcessor> processors = [];
 
-  SerializerWriter(this.serializer, this.entities);
+  SerializerWriter(this.serializer, List<Entity> entities)
+      : entities = entities
+            .where((e) => e.serializers.isEmpty || e.serializers.contains(serializer.name))
+            .toList();
 
-  void writeImports(
-      StringBuffer buffer, String Function(String name) createEntityFilePath) {
-    for (var ent in entities) {
+  void writeImports(StringBuffer buffer, String Function(String name) createEntityFilePath) {
+    for (final ent in entities) {
       final path = createEntityFilePath(ent.name);
       buffer.writeln("import '$path';");
     }
@@ -50,8 +52,7 @@ class SerializerWriter {
     mapExtWriter.write(buffer);
 
     if (processors.any((element) => element.usedOnList)) {
-      final writer =
-          ListExtensionWriter(serializer: serializer, processors: processors);
+      final writer = ListExtensionWriter(serializer: serializer, processors: processors);
       writer.write(buffer);
     }
   }
@@ -67,8 +68,7 @@ class SerializerWriter {
         continue;
       }
       String name = "${serializer.name}_processor_${processors.length}";
-      processors.add(
-          ValuesProcessor(name: name.pascalCase, field: f, entities: entities));
+      processors.add(ValuesProcessor(name: name.pascalCase, field: f, entities: entities));
     }
   }
 

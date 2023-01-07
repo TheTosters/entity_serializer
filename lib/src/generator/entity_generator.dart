@@ -13,6 +13,10 @@ class EntityGenerator {
       copyWith: asBool(optAttrValue(node, "copyWith", "true")),
       generateEntity: asBool(optAttrValue(node, "generateEntity", "true")),
     );
+    final serializers = attrValue(node, "serializers");
+    if (serializers != null && serializers.trim().isNotEmpty) {
+      result.serializers.addAll(asSplitList(serializers));
+    }
     for (final child in node.childElements) {
       final field = _parseField(child);
       result.fields.add(field);
