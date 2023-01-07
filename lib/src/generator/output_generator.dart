@@ -44,6 +44,10 @@ class OutputGenerator {
   void _generateSeparateFiles() {
     final sb = StringBuffer();
     for (final ent in models.entities) {
+      if (!ent.generateEntity) {
+        //disabled entity generation at xml level
+        continue;
+      }
       sb.clear();
       _writeAutoGenHeaderInfo(sb);
       EntityWriter writer = EntityWriter(ent);
@@ -70,6 +74,10 @@ class OutputGenerator {
     final Set<String> imports = {};
     bool needAutoGenImport = false;
     for (final ent in models.entities) {
+      if (!ent.generateEntity) {
+        //disabled entity generation at xml level
+        continue;
+      }
       final writer = EntityWriter(ent);
       writer.collectExternalImports(imports);
       writer.writeBody(sb);

@@ -11,6 +11,7 @@ class EntityGenerator {
     final result = Entity(
       name: reqAttrValue(node, "name"),
       copyWith: asBool(optAttrValue(node, "copyWith", "true")),
+      generateEntity: asBool(optAttrValue(node, "generateEntity", "true")),
     );
     for (final child in node.childElements) {
       final field = _parseField(child);
