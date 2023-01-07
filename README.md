@@ -47,9 +47,14 @@ Please note existence of `cli_main.dart` file. It allows you to compile and have
 stand alone application, not bound to build_runner. All needed information how to use it is 
 displayed when you call it with `-h` switch. For most situations you will probably call something
 like:
-```cli_main -i data_model/list_test.xml -o sources/gen.dart```
+```
+cli_main -i data_model/list_test.xml -o sources/gen.dart
+```
 or
-```cli_main -s -i data_model/list_test.xml -o sources/```
+```
+cli_main -s -i data_model/list_test.xml -o sources/
+```
+
 
 ## Xml description
 
@@ -58,6 +63,7 @@ and descriptions:
 ```xml
 <?xml version="1.0"?>
 <spec>
+    <import package="package:any_package.dart"/>
     <serializer name="Ser1"/>
 
     <class name="Book">
@@ -68,6 +74,15 @@ and descriptions:
 This is the most simple xml which has any meaning. We are defining one serializer which will be 
 named `Ser1` and one data class named `Book`. As expected `Book` class will have just one `String` 
 field named `name`. For class `Book` serialization extensions will be generated.
+
+### Node import
+
+If for any reason you need add extra imports to generated code `import` node comes in. There is
+single mandatory attribute called `package` where you put what need to be imported. Each xml can 
+have multiple `import` nodes.
+
+### Node serializer
+TODO:
 
 ### Node class
 

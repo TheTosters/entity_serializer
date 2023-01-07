@@ -35,6 +35,12 @@ class OutputGenerator {
     }
   }
 
+  void _writeCustomImports(StringBuffer buffer) {
+    for(final i in models.imports) {
+      buffer.writeln("import '${i.package}';");
+    }
+  }
+
   void _generateSeparateFiles() {
     final sb = StringBuffer();
     for (final ent in models.entities) {
@@ -42,6 +48,7 @@ class OutputGenerator {
       _writeAutoGenHeaderInfo(sb);
       EntityWriter writer = EntityWriter(ent);
       writer.writeExternalImports(sb);
+      _writeCustomImports(sb);
       writer.writeModelImports(sb, _createEntityImportPath);
       writer.writeAutoGenImports(sb, _createEntityImportPath);
       writer.writeBody(sb);
@@ -50,6 +57,7 @@ class OutputGenerator {
     for (final s in models.serializers) {
       sb.clear();
       _writeAutoGenHeaderInfo(sb);
+      _writeCustomImports(sb);
       SerializerWriter writer = SerializerWriter(s, models.entities);
       writer.writeImports(sb, _createEntityImportPath);
       writer.writeBody(sb);
@@ -75,6 +83,7 @@ class OutputGenerator {
     //put imports in front of rest
     StringBuffer out = StringBuffer();
     _writeAutoGenHeaderInfo(out);
+    _writeCustomImports(out);
     for (final import in imports) {
       out.writeln(import);
     }
