@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="Ser1"/>
+
+    <class name="Book" copyWith="false">
+        <field name="author" type="Author"/>
+        <field name="meta" type="Meta"/>
+        <int name="pages"/>
+        <superMeta name="superMeta"/>
+    </class>
+
+    <class name="Author" copyWith="false">
+        <string name="name"/>
+        <string name="surname"/>
+    </class>
+
+    <class name="SuperMeta" copyWith="false">
+        <int name="version"/>
+    </class>
+
+    <class name="Meta" copyWith="false">
+        <field name="country" type="Country"/>
+    </class>
+
+    <class name="Country" copyWith="false">
+        <string name="code"/>
+        <string name="extra"/>
+    </class>
+</spec>

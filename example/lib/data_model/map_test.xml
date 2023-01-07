@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="Ser1"/>
+
+    <class name="MyMap" copyWith="false">
+        <map name="integers" keyType="String" valueType="int"/>
+        <map name="strings" keyType="String" valueType="String"/>
+        <map name="customType" keyType="String" valueType="MyType"/>
+        <map name="dynamicType" keyType="String" valueType="dynamic"/>
+        <map name="expDynamicType" keyType="String" valueType="dynamic" expectOnly="MyType,MyOther"/>
+    </class>
+
+    <class name="MyType" copyWith="false">
+        <int name="val"/>
+    </class>
+
+    <class name="MyOther" copyWith="false">
+        <string name="str"/>
+    </class>
+</spec>

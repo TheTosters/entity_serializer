@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="IsoDate">
+        <specialization
+            type="DateTime"
+            serialization="dateTimeToIsoStr"
+            deserialization="dateTimeFromIsoStr"
+            import="package:entity_serializer/entity_serializer.dart"
+        />
+    </serializer>
+
+    <serializer name="EpocDate">
+        <specialization
+            type="DateTime"
+            outType="int"
+            serialization="dateTimeToEpoc"
+            deserialization="dateTimeFromEpoc"
+            import="package:entity_serializer/entity_serializer.dart"
+        />
+    </serializer>
+
+    <serializer name="KeepDate" >
+        <keep type="DateTime"/>
+    </serializer>
+
+    <class name="TestEntity" copyWith="false">
+        <DateTime name="date" final="false"/>
+    </class>
+</spec>

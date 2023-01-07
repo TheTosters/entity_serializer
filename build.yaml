@@ -1,11 +1,22 @@
-builders:
+targets:
+  $default:
+    builders:
+      entitySerializerBuilder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
 
+builders:
   entitySerializerBuilder:
     import: "package:entity_serializer/builder.dart"
     builder_factories: ["entitySerializerBuilder"]
     build_extensions: {".xml": [".dart"]}
     auto_apply: root_package
     build_to: source
+    runs_before: ["copy_with_extension_gen"]
+    applies_builders: ["copy_with_extension_gen"]
     defaults:
       options:
         input_files_extension: xml

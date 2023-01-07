@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="Ser1"/>
+
+    <class name="MyList">
+        <list name="integers" innerType="int"/>
+        <list name="strings" innerType="String"/>
+        <list name="customType" innerType="MyTypeInList"/>
+        <list name="dynamicType" innerType="dynamic"/>
+        <list name="expDynamicType" innerType="dynamic" expectOnly="MyTypeInList,MyOtherInList"/>
+    </class>
+
+    <class name="MyTypeInList">
+        <int name="val"/>
+    </class>
+
+    <class name="MyOtherInList">
+        <string name="str"/>
+    </class>
+</spec>
