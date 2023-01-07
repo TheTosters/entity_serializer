@@ -82,7 +82,48 @@ single mandatory attribute called `package` where you put what need to be import
 have multiple `import` nodes.
 
 ### Node serializer
-TODO:
+
+Serializer node informs builder that some named serializer need to be generated for data classes.
+At current serializer has only one attribute named `name`. This name is used as prefix for code
+generation, and also can be put into `serializers` attribute of xml node `class`. By default
+serializer can handle Dart types: `int`, `double`, `String`, `bool` and all entities classes 
+described in xml. Further specialization how to encode other classes can be done through child nodes
+of serializer. See next paragraphs.
+
+#### Serializer children: keep
+
+Serializers converts Dart object instance into `Map<String, dynamic>` using some rules. However 
+sometimes you want to keep given object instance without change. So you want to copy object into map
+just as it is. For this purpose node `keep` exist, it contains only one attribute which is `type`.
+If serializer find node with given type, it will just copy it. Example:
+```xml
+<serializer name="KeepDate" >
+    <keep type="DateTime"/>
+</serializer>
+```
+
+#### Serializer children: specialization
+
+For types which you want to be handled in a special way you should use node `specialization`. Here
+if how it looks like:
+```xml
+<serializer name="EpocDate">
+    <specialization
+        type="DateTime"
+        outType="int"
+        serialization="dateTimeToEpoc"
+        deserialization="dateTimeFromEpoc"
+        import="package:entity_serializer/entity_serializer.dart"
+    />
+</serializer>
+```
+Here is description of attributes:
+- type - on which type this rule apply
+- outType - what is result of conversion done by function pointed by `serialization` attribute
+- serialization - name of function which should be used to convert `type` into `outType`
+- deserialization - name of function which should be used to convert `outType` into `type`
+- import - from what package/source file functions pointed by `serialization` and `deserialization`
+can be imported
 
 ### Node class
 
@@ -90,6 +131,10 @@ Each data class which need to be generated need to be put into `class` node insi
 attributes are available for this node:
 - name - mandatory, tells what is name of new class, should be PascalCase typed.
 - copyWith - optional, default: true. Tells if new created class should have `@CopyWith` annotation
+- serializers - optional, default: null. List of all serializers which should be generated for this 
+class. If empty/null then all know serializers are used.
+- generateEntity - optional, default: true. Tells builder if Dart class should be generated. If false
+then only serializers are generated. Class body need to be imported manually.
 
 To create fields for newly created class child-nodes described later can be added. Each child-node
 support following attributes:
