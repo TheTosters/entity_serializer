@@ -9,7 +9,8 @@ class EntityWriter {
 
   void collectExternalImports(ImportWriter collector) {
     if (entity.copyWith) {
-      collector.addImport("package:copy_with_extension/copy_with_extension.dart");
+      collector
+          .addImport("package:copy_with_extension/copy_with_extension.dart");
     }
   }
 
@@ -27,7 +28,8 @@ class EntityWriter {
     String Function(String name) createEntityFilePath,
   ) {
     if (entity.copyWith) {
-      final path = createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
+      final path =
+          createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
       collector.addPart(path);
     }
   }
@@ -54,7 +56,8 @@ class EntityWriter {
     if (f.isList) {
       buffer.writeln("  ${fStr}List<${f.valueType}>$optStr ${f.name};");
     } else if (f.isMap) {
-      buffer.writeln("  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
+      buffer.writeln(
+          "  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
     } else {
       //plain field
       buffer.writeln("  $fStr${f.type}$optStr ${f.name};");

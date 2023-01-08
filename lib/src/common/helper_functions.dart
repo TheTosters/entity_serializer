@@ -4,13 +4,15 @@ String? optDateTimeToIsoStr(DateTime? date) => date?.toIso8601String();
 
 DateTime dateTimeFromIsoStr(String data) => DateTime.parse(data);
 
-DateTime? optDateTimeFromIsoStr(String? data) => data != null ? DateTime.parse(data) : null;
+DateTime? optDateTimeFromIsoStr(String? data) =>
+    data != null ? DateTime.parse(data) : null;
 
 int dateTimeToEpoc(DateTime date) => date.millisecondsSinceEpoch;
 
 int? optDateTimeToEpoc(DateTime? date) => date?.millisecondsSinceEpoch;
 
-DateTime dateTimeFromEpoc(int epocMillis) => DateTime.fromMillisecondsSinceEpoch(epocMillis);
+DateTime dateTimeFromEpoc(int epocMillis) =>
+    DateTime.fromMillisecondsSinceEpoch(epocMillis);
 
 DateTime? optDateTimeFromEpoc(int? epocMillis) =>
     epocMillis != null ? DateTime.fromMillisecondsSinceEpoch(epocMillis) : null;

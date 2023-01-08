@@ -9,7 +9,8 @@ class Serializer {
 
   Serializer({required this.name});
 
-  void addSpecialization(String type, Specialization spec) => _specializations[type] = spec;
+  void addSpecialization(String type, Specialization spec) =>
+      _specializations[type] = spec;
 
   bool hasSpecialization(Field field) =>
       _specializations.containsKey(_getFieldType(field));
@@ -20,7 +21,8 @@ class Serializer {
   String handleDeserialization(Field field, String variable) =>
       _specializations[_getFieldType(field)]!.processDeserialization(variable);
 
-  String _getFieldType(Field field) => "${field.type}${field.isOptional ? "?" : ""}";
+  String _getFieldType(Field field) =>
+      "${field.type}${field.isOptional ? "?" : ""}";
 
   void collectImports(ImportWriter collector) {
     for (final spec in _specializations.values) {
@@ -32,8 +34,8 @@ class Serializer {
   }
 
   void inherit(List<Serializer> serializerTemplates) {
-    for(final inh in templates) {
-      for(final template in serializerTemplates) {
+    for (final inh in templates) {
+      for (final template in serializerTemplates) {
         if (template.name == inh) {
           _inheritFrom(template);
         }
@@ -42,7 +44,7 @@ class Serializer {
   }
 
   void _inheritFrom(Serializer template) {
-    for(final ent in template._specializations.entries) {
+    for (final ent in template._specializations.entries) {
       _specializations.putIfAbsent(ent.key, () => ent.value);
     }
   }
