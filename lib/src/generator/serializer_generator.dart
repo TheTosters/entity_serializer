@@ -1,3 +1,4 @@
+import 'package:entity_serializer/entity_serializer.dart';
 import 'package:entity_serializer/src/model/serializer.dart';
 import 'package:entity_serializer/src/model/specialization_convert.dart';
 import 'package:xml/xml.dart';
@@ -9,6 +10,10 @@ class SerializerGenerator {
   static Serializer parseNode(XmlElement node) {
     final name = reqAttrValue(node, "name");
     final result = Serializer(name: name);
+    final inherit = attrValue(node, "inheritFrom");
+    if (inherit != null && inherit.trim().isNotEmpty) {
+      result.templates.addAll(asSplitList(inherit));
+    }
 
     for (final child in node.childElements) {
       final childNodeName = child.name.toString().toLowerCase();

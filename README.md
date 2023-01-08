@@ -81,14 +81,26 @@ If for any reason you need add extra imports to generated code `import` node com
 single mandatory attribute called `package` where you put what need to be imported. Each xml can 
 have multiple `import` nodes.
 
+### Node serializerTemplate
+
+This node act almost this same as node `serializer`, the main difference is that builder will not
+generate any code for `serializerTemplate`. It is just a template to put common specializations
+used across other serializers. Think about it as a parent class from which other serializers can
+inherit. Each serializer can inherit specializations from `serializerTemplate` by placing it name
+in `inheritFrom` attribute.
+
 ### Node serializer
 
 Serializer node informs builder that some named serializer need to be generated for data classes.
-At current serializer has only one attribute named `name`. This name is used as prefix for code
-generation, and also can be put into `serializers` attribute of xml node `class`. By default
-serializer can handle Dart types: `int`, `double`, `String`, `bool` and all entities classes 
-described in xml. Further specialization how to encode other classes can be done through child nodes
-of serializer. See next paragraphs.
+At current serializer has following one attributes 
+- `name` - mandatory, this name is used as prefix for code generation, and also can be put into  
+`serializers` attribute of xml node `class`.
+- `inheritFrom` - optional, default: empty. Coma separated names of `serializerTemplate` from which
+specializations will be copied.
+
+By default serializer can handle Dart types: `int`, `double`, `String`, `bool` and all entities 
+classes described in xml. Further specialization how to encode other classes can be done through
+child nodes of serializer. See next paragraphs.
 
 #### Serializer children: keep
 

@@ -4,6 +4,7 @@ import 'specialization.dart';
 class Serializer {
   final String name;
   final Map<String, Specialization> _specializations = {};
+  final List<String> templates = [];
 
   Serializer({required this.name});
 
@@ -26,6 +27,22 @@ class Serializer {
       if (path != null) {
         imports.add("import '$path';");
       }
+    }
+  }
+
+  void inherit(List<Serializer> serializerTemplates) {
+    for(final inh in templates) {
+      for(final template in serializerTemplates) {
+        if (template.name == inh) {
+          _inheritFrom(template);
+        }
+      }
+    }
+  }
+
+  void _inheritFrom(Serializer template) {
+    for(final ent in template._specializations.entries) {
+      _specializations.putIfAbsent(ent.key, () => ent.value);
     }
   }
 }

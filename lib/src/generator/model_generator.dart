@@ -13,17 +13,24 @@ class ModelGenerator {
   final List<Import> imports = [];
 
   ModelGenerator({required XmlDocument from}) {
+    final List<Serializer> serializerTemplates = [];
     for (final node in from.rootElement.childElements) {
       final name = node.name.toString().toLowerCase();
       if (name == "class") {
         entities.add(EntityGenerator.parseNode(node));
       } else if (name == "serializer") {
         serializers.add(SerializerGenerator.parseNode(node));
+      } else if (name == "serializertemplate") {
+        serializerTemplates.add(SerializerGenerator.parseNode(node));
       } else if (name == "import") {
         imports.add(ImportGenerator.parseNode(node));
       } else {
         throw Exception("Unknown node with name: '${node.name.toString()}'");
       }
+    }
+    //propagate templates across serializers
+    for (var serializer in serializers) {
+      serializer.inherit(serializerTemplates);
     }
   }
 }
