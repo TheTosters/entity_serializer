@@ -1,3 +1,4 @@
+import 'package:entity_serializer/src/writer/import_writer.dart';
 import 'package:recase/recase.dart';
 
 import '../model/entity.dart';
@@ -18,17 +19,12 @@ class SerializerWriter {
             .where((e) => e.serializers.isEmpty || e.serializers.contains(serializer.name))
             .toList();
 
-  void writeImports(StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void collectImports(ImportWriter collector, String Function(String name) createEntityFilePath) {
     for (final ent in entities) {
       final path = createEntityFilePath(ent.name);
-      buffer.writeln("import '$path';");
+      collector.addImport(path);
     }
-    Set<String> imports = {};
-    serializer.collectImports(imports);
-    for (final import in imports) {
-      buffer.writeln(import);
-    }
-    buffer.writeln();
+    serializer.collectImports(collector);
   }
 
   void writeBody(StringBuffer buffer) {

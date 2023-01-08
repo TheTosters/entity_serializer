@@ -54,10 +54,10 @@ class EntityExtensionWriter {
               //We will have one of Entity defined types, map those types using extension method
               if (f.isList) {
                 collection[f.name] =
-                    "${f.name}.map((v) => v.to${serializer.name}()).toList() /*EXPECTED*/";
+                    "${_fieldAccess(f)}.map((v) => v.to${serializer.name}()).toList() /*EXPECTED*/";
               } else if (f.isMap) {
                 collection[f.name] =
-                    "${f.name}.map((k, v) => MapEntry(k, v.to${serializer.name}())) /*EXPECTED*/";
+                    "${_fieldAccess(f)}.map((k, v) => MapEntry(k, v.to${serializer.name}())) /*EXPECTED*/";
               } else {
                 throw Exception("Internal error");
               }

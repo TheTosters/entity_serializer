@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:entity_serializer/src/writer/entity_writer.dart';
+import 'package:entity_serializer/src/writer/import_writer.dart';
 import 'package:entity_serializer/src/writer/serializer_writer.dart';
 import 'package:path/path.dart';
 import 'package:recase/recase.dart';
@@ -35,12 +36,6 @@ class OutputGenerator {
     }
   }
 
-  void _writeCustomImports(StringBuffer buffer) {
-    for (final i in models.imports) {
-      buffer.writeln("import '${i.package}';");
-    }
-  }
-
   void _generateSeparateFiles() {
     final sb = StringBuffer();
     for (final ent in models.entities) {
@@ -48,22 +43,31 @@ class OutputGenerator {
         //disabled entity generation at xml level
         continue;
       }
+      ImportWriter importWriter = ImportWriter();
+      importWriter.addImports(models.imports.map((e) => e.package));
+
       sb.clear();
       _writeAutoGenHeaderInfo(sb);
+
       EntityWriter writer = EntityWriter(ent);
-      writer.writeExternalImports(sb);
-      _writeCustomImports(sb);
-      writer.writeModelImports(sb, _createEntityImportPath);
-      writer.writeAutoGenImports(sb, _createEntityImportPath);
+      writer.collectExternalImports(importWriter);
+      writer.collectModelImports(importWriter, _createEntityImportPath);
+      writer.collectAutoGenImports(importWriter, _createEntityImportPath);
+
+      importWriter.writeImports(sb);
       writer.writeBody(sb);
       _writeToOutput(buffer: sb, entity: ent);
     }
     for (final s in models.serializers) {
       sb.clear();
+      ImportWriter importWriter = ImportWriter();
+      importWriter.addImports(models.imports.map((e) => e.package));
+
       _writeAutoGenHeaderInfo(sb);
-      _writeCustomImports(sb);
       SerializerWriter writer = SerializerWriter(s, models.entities);
-      writer.writeImports(sb, _createEntityImportPath);
+      writer.collectImports(importWriter, _createEntityImportPath);
+
+      importWriter.writeImports(sb);
       writer.writeBody(sb);
       _writeToOutput(buffer: sb, serializer: s);
     }
@@ -71,7 +75,8 @@ class OutputGenerator {
 
   void _generateSingleFile() {
     final sb = StringBuffer();
-    final Set<String> imports = {};
+    final ImportWriter importWriter = ImportWriter();
+    importWriter.addImports(models.imports.map((e) => e.package));
     bool needAutoGenImport = false;
     for (final ent in models.entities) {
       if (!ent.generateEntity) {
@@ -79,29 +84,25 @@ class OutputGenerator {
         continue;
       }
       final writer = EntityWriter(ent);
-      writer.collectExternalImports(imports);
+      writer.collectExternalImports(importWriter);
       writer.writeBody(sb);
       needAutoGenImport |= ent.copyWith;
     }
     for (final s in models.serializers) {
       final writer = SerializerWriter(s, models.entities);
       writer.writeBody(sb);
-      s.collectImports(imports);
+      s.collectImports(importWriter);
     }
     //put imports in front of rest
     StringBuffer out = StringBuffer();
     _writeAutoGenHeaderInfo(out);
-    _writeCustomImports(out);
-    for (final import in imports) {
-      out.writeln(import);
-    }
-    out.writeln();
+
     if (needAutoGenImport) {
       final path =
           basename(_createSingleFilePath()).replaceFirst(".dart", ".g.dart");
-      out.writeln("part '$path';");
-      out.writeln();
+      importWriter.addPart(path);
     }
+    importWriter.writeImports(out);
     out.write(sb.toString());
     _writeToOutput(buffer: out);
   }

@@ -1,3 +1,4 @@
+import '../writer/import_writer.dart';
 import 'field.dart';
 import 'specialization.dart';
 
@@ -21,11 +22,11 @@ class Serializer {
 
   String _getFieldType(Field field) => "${field.type}${field.isOptional ? "?" : ""}";
 
-  void collectImports(Set<String> imports) {
+  void collectImports(ImportWriter collector) {
     for (final spec in _specializations.values) {
       final path = spec.getImportPath;
       if (path != null) {
-        imports.add("import '$path';");
+        collector.addImport(path);
       }
     }
   }

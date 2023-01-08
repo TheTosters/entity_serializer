@@ -71,7 +71,7 @@ class MapExtensionWriter {
           final processed = serializer.handleDeserialization(f, "this['${f.name}']");
           buffer.writeln("      ${f.name}: $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
-          final method = "to_${f.name}_using_${serializer.name}".camelCase;
+          final method = "to_${f.type}_using_${serializer.name}".camelCase;
           buffer.writeln(
               "      ${f.name}: (this['${f.name}'] as Map<String, dynamic>).$method(), /*ENTITY*/");
         } else {

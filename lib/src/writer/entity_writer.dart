@@ -1,42 +1,34 @@
 import '../model/entity.dart';
 import '../model/field.dart';
+import 'import_writer.dart';
 
 class EntityWriter {
   final Entity entity;
 
   EntityWriter(this.entity);
 
-  void writeExternalImports(StringBuffer buffer) {
-    Set<String> imports = {};
-    collectExternalImports(imports);
-    for (final import in imports) {
-      buffer.writeln(import);
-    }
-  }
-
-  void collectExternalImports(Set<String> imports) {
+  void collectExternalImports(ImportWriter collector) {
     if (entity.copyWith) {
-      imports.add(
-          "import 'package:copy_with_extension/copy_with_extension.dart';");
+      collector.addImport("package:copy_with_extension/copy_with_extension.dart");
     }
   }
 
-  void writeModelImports(
-      StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void collectModelImports(
+    ImportWriter collector,
+    String Function(String name) createEntityFilePath,
+  ) {
     for (var dep in entity.dependencies) {
-      final path = createEntityFilePath(dep);
-      buffer.writeln("import '$path';");
+      collector.addImport(createEntityFilePath(dep));
     }
-    buffer.writeln();
   }
 
-  void writeAutoGenImports(
-      StringBuffer buffer, String Function(String name) createEntityFilePath) {
+  void collectAutoGenImports(
+    ImportWriter collector,
+    String Function(String name) createEntityFilePath,
+  ) {
     if (entity.copyWith) {
-      final path =
-          createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
-      buffer.writeln("part '$path';");
-      buffer.writeln();
+      final path = createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
+      collector.addPart(path);
     }
   }
 
@@ -62,8 +54,7 @@ class EntityWriter {
     if (f.isList) {
       buffer.writeln("  ${fStr}List<${f.valueType}>$optStr ${f.name};");
     } else if (f.isMap) {
-      buffer.writeln(
-          "  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
+      buffer.writeln("  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
     } else {
       //plain field
       buffer.writeln("  $fStr${f.type}$optStr ${f.name};");
