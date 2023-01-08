@@ -1,5 +1,6 @@
 ## 0.0.2
 
+- Improvement: import generation
 - Feature: Introduce serializerTemplate as a common part for many serializers
 - Bugfix: support nullable types
 - Improvement: serializer node documentation in readme
