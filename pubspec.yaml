@@ -14,7 +14,7 @@ dependencies:
   recase: ^4.1.0
   collection: ^1.17.0
   build: ^2.3.1
-  logging: any
+  logging: ^1.1.0
 
 dev_dependencies:
   lints: ^2.0.0
