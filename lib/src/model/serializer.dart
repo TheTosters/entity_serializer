@@ -1,3 +1,4 @@
+import 'field.dart';
 import 'specialization.dart';
 
 class Serializer {
@@ -6,16 +7,18 @@ class Serializer {
 
   Serializer({required this.name});
 
-  void addSpecialization(String type, Specialization spec) =>
-      _specializations[type] = spec;
+  void addSpecialization(String type, Specialization spec) => _specializations[type] = spec;
 
-  bool hasSpecialization(String type) => _specializations.containsKey(type);
+  bool hasSpecialization(Field field) =>
+      _specializations.containsKey(_getFieldType(field));
 
-  String handleSerialization(String type, String variable) =>
-      _specializations[type]!.processSerialization(variable);
+  String handleSerialization(Field field, String variable) =>
+      _specializations[_getFieldType(field)]!.processSerialization(variable);
 
-  String handleDeserialization(String type, String variable) =>
-      _specializations[type]!.processDeserialization(variable);
+  String handleDeserialization(Field field, String variable) =>
+      _specializations[_getFieldType(field)]!.processDeserialization(variable);
+
+  String _getFieldType(Field field) => "${field.type}${field.isOptional ? "?" : ""}";
 
   void collectImports(Set<String> imports) {
     for (final spec in _specializations.values) {

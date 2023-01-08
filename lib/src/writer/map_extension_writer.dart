@@ -19,8 +19,7 @@ class MapExtensionWriter {
   });
 
   void write(StringBuffer buffer) {
-    buffer.writeln(
-        "extension ${serializer.name}SerializerMapExt on Map<String, dynamic> {");
+    buffer.writeln("extension ${serializer.name}SerializerMapExt on Map<String, dynamic> {");
     for (final processor in processors) {
       _writeProcessor(buffer: buffer, processor: processor);
       buffer.writeln();
@@ -35,10 +34,8 @@ class MapExtensionWriter {
     buffer.writeln("}\n");
   }
 
-  void _writeEntityBuilder(
-      {required StringBuffer buffer, required Entity entity}) {
-    buffer.writeln(
-        "  ${entity.name} to${entity.name}Using${serializer.name}() {");
+  void _writeEntityBuilder({required StringBuffer buffer, required Entity entity}) {
+    buffer.writeln("  ${entity.name} to${entity.name}Using${serializer.name}() {");
     buffer.writeln("    return ${entity.name}(");
     for (var f in entity.fields) {
       if (f.isList) {
@@ -61,8 +58,7 @@ class MapExtensionWriter {
           buffer.writeln(
               "      ${f.name}: Map<${f.keyType}, ${f.valueType}>.from(this['${f.name}'] as Map) , /*DART TYPES MAP*/");
         } else if (f.isValueCustomType) {
-          buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as Map) /*CUSTOM TYPE MAP*/");
+          buffer.writeln("      ${f.name}: (this['${f.name}'] as Map) /*CUSTOM TYPE MAP*/");
           buffer.writeln(
               "        .map((k,v) => MapEntry(k, (v as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())),");
         } else {
@@ -71,17 +67,15 @@ class MapExtensionWriter {
               "      ${f.name}: (this['${f.name}'] as Map<String, dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
         }
       } else {
-        if (serializer.hasSpecialization(f.type)) {
-          final processed =
-              serializer.handleDeserialization(f.type, "this['${f.name}']");
+        if (serializer.hasSpecialization(f)) {
+          final processed = serializer.handleDeserialization(f, "this['${f.name}']");
           buffer.writeln("      ${f.name}: $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
           final method = "to_${f.name}_using_${serializer.name}".camelCase;
           buffer.writeln(
               "      ${f.name}: (this['${f.name}'] as Map<String, dynamic>).$method(), /*ENTITY*/");
         } else {
-          buffer.writeln(
-              "      ${f.name}: this['${f.name}'] as ${f.type}, /*DART TYPE*/");
+          buffer.writeln("      ${f.name}: this['${f.name}'] as ${f.type}, /*DART TYPE*/");
         }
       }
     }
@@ -89,18 +83,15 @@ class MapExtensionWriter {
     buffer.writeln("  }");
   }
 
-  void _writeProcessor(
-      {required StringBuffer buffer, required ValuesProcessor processor}) {
+  void _writeProcessor({required StringBuffer buffer, required ValuesProcessor processor}) {
     if (!processor.usedOnMap) {
       return;
     }
-    buffer
-        .writeln("  Map<String, dynamic> to${processor.name}() => map((k,v) {");
+    buffer.writeln("  Map<String, dynamic> to${processor.name}() => map((k,v) {");
     buffer.write("    ");
     int count = processor.types.length;
     for (final type in processor.types) {
-      buffer.write(
-          "if (v is $type) {v = v.to${serializer.name}(decorate: true);}");
+      buffer.write("if (v is $type) {v = v.to${serializer.name}(decorate: true);}");
       count--;
       if (count > 0) {
         buffer.write("\n    else ");
@@ -110,13 +101,11 @@ class MapExtensionWriter {
     buffer.writeln("  });\n");
   }
 
-  void _writeBuilder(
-      {required StringBuffer buffer, required ValuesProcessor processor}) {
+  void _writeBuilder({required StringBuffer buffer, required ValuesProcessor processor}) {
     if (!processor.usedOnMap) {
       return;
     }
-    buffer.writeln(
-        "  Map<String, dynamic> from${processor.name}() => map((k,v) {");
+    buffer.writeln("  Map<String, dynamic> from${processor.name}() => map((k,v) {");
     buffer.writeln("    if (v is Map) {");
     buffer.writeln("      final className = v['_c'];");
     buffer.writeln("      if (className == null) {return MapEntry(k,v);}");
@@ -124,8 +113,7 @@ class MapExtensionWriter {
     buffer.write("      ");
     for (final type in processor.types) {
       buffer.writeln("if (className == '$type') {");
-      buffer.write(
-          "        v = (v as Map<String, dynamic>).to${type}Using${serializer.name}();");
+      buffer.write("        v = (v as Map<String, dynamic>).to${type}Using${serializer.name}();");
       count--;
       if (count > 0) {
         buffer.write("\n      } else ");

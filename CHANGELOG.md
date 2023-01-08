@@ -1,5 +1,6 @@
 ## 0.0.2
 
+- Bugfix: support nullable types
 - Improvement: serializer node documentation in readme
 - Feature: select which serializers are used per entity (attribute serializers on class node)
 - Feature: skip entity class creation on demand, only serialization generation (attribute generateEntity="false" on class node)

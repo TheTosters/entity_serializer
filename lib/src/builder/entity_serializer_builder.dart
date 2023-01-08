@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:build/build.dart';
+import 'package:logging/logging.dart';
 import 'package:xml/xml.dart';
 
 import '../../entity_serializer.dart';
@@ -15,6 +16,7 @@ class EntitySerializerBuilder implements Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    _dumpConfig();
     final outPath = buildStep.allowedOutputs.first.path;
     final wrapper = GeneratorWrapper(
         await buildStep.readAsString(buildStep.inputId), outPath);
@@ -34,6 +36,14 @@ class EntitySerializerBuilder implements Builder {
   Map<String, List<String>> get buildExtensions => {
         '$_getInputFolder/{{}}.$_getInputExt': ['$_getOutputFolder/{{}}.dart']
       };
+
+  void _dumpConfig() {
+    log.log(Level.FINE, "EntitySerializerBuilder CONFIG:");
+    log.log(Level.FINE, "  input_folder: $_getInputFolder");
+    log.log(Level.FINE, "  input_files_extension: $_getInputExt");
+    log.log(Level.FINE, "  output_folder: $_getOutputFolder");
+    log.log(Level.FINE, "  buildExtensions: $buildExtensions");
+  }
 }
 
 class GeneratorWrapper {
