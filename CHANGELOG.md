@@ -1,3 +1,6 @@
+## 0.0.3
+- Bugfix: optional values generation fix
+
 ## 0.0.2
 
 - Improvement: import generation

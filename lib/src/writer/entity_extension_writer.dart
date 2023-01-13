@@ -23,12 +23,10 @@ class EntityExtensionWriter {
     buffer.writeln("}\n");
   }
 
-  String _fieldAccess(Field field) =>
-      field.isOptional ? "${field.name}?" : field.name;
+  String _fieldAccess(Field field) => field.isOptional ? "${field.name}?" : field.name;
 
   void _writeSerializer(StringBuffer buffer) {
-    buffer.writeln(
-        "  Map<String, dynamic> to${serializer.name}({bool decorate=false}) {");
+    buffer.writeln("  Map<String, dynamic> to${serializer.name}({bool decorate=false}) {");
     buffer.writeln("    return {");
     buffer.writeln("      if (decorate) '_c': '${entity.name}', ");
     //process for collections serialization
@@ -44,8 +42,7 @@ class EntityExtensionWriter {
             //this collection contain dynamic values, we will process values using specialized
             //extension of map/list
             final processor = findProcessorFor(f)!;
-            collection[f.name] =
-                "${_fieldAccess(f)}.to${processor.name}() /*DYNAMIC*/";
+            collection[f.name] = "${_fieldAccess(f)}.to${processor.name}() /*DYNAMIC*/";
             if (f.isList) {
               processor.usedOnList = true;
             } else {
@@ -85,8 +82,12 @@ class EntityExtensionWriter {
           final processed = serializer.handleSerialization(f, f.name);
           buffer.writeln("      '${f.name}': $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
-          buffer.writeln(
-              "      '${f.name}': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+          if (f.isOptional) {
+            buffer.writeln("      if (${f.name} != null)");
+            buffer.writeln("        '${f.name}': ${f.name}!.to${serializer.name}(), /*ENTITY*/");
+          } else {
+            buffer.writeln("      '${f.name}': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+          }
         } else {
           buffer.writeln("      '${f.name}': ${f.name}, /*DART TYPE*/");
         }
