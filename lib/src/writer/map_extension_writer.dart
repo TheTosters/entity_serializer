@@ -41,47 +41,48 @@ class MapExtensionWriter {
         "  ${entity.name} to${entity.name}Using${serializer.name}() {");
     buffer.writeln("    return ${entity.name}(");
     for (var f in entity.fields) {
+      final fieldName = serializer.nameFor(f);
       if (f.isList) {
         if (f.isPlain) {
           buffer.writeln(
-              "      ${f.name}: List<${f.valueType}>.from(this['${f.name}'] as List) , /*DART TYPES LIST*/");
+              "      ${f.name}: List<${f.valueType}>.from(this['$fieldName'] as List) , /*DART TYPES LIST*/");
         } else if (f.isValueCustomType) {
           buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as List<dynamic>) /*CUSTOM TYPE LIST*/");
+              "      ${f.name}: (this['$fieldName'] as List<dynamic>) /*CUSTOM TYPE LIST*/");
           buffer.writeln(
               "        .map((e) => (e as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())");
           buffer.writeln("        .toList(),");
         } else {
           final processor = findProcessorFor(f)!;
           buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as List<dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
+              "      ${f.name}: (this['$fieldName'] as List<dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
         }
       } else if (f.isMap) {
         if (f.isPlain) {
           buffer.writeln(
-              "      ${f.name}: Map<${f.keyType}, ${f.valueType}>.from(this['${f.name}'] as Map) , /*DART TYPES MAP*/");
+              "      ${f.name}: Map<${f.keyType}, ${f.valueType}>.from(this['$fieldName'] as Map) , /*DART TYPES MAP*/");
         } else if (f.isValueCustomType) {
           buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as Map) /*CUSTOM TYPE MAP*/");
+              "      ${f.name}: (this['$fieldName'] as Map) /*CUSTOM TYPE MAP*/");
           buffer.writeln(
               "        .map((k,v) => MapEntry(k, (v as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())),");
         } else {
           final processor = findProcessorFor(f)!;
           buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as Map<String, dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
+              "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
         }
       } else {
         if (serializer.hasSpecialization(f)) {
           final processed =
-              serializer.handleDeserialization(f, "this['${f.name}']");
+              serializer.handleDeserialization(f, "this['$fieldName']");
           buffer.writeln("      ${f.name}: $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
           final method = "to_${f.type}_using_${serializer.name}".camelCase;
           buffer.writeln(
-              "      ${f.name}: (this['${f.name}'] as Map<String, dynamic>).$method(), /*ENTITY*/");
+              "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
         } else {
           buffer.writeln(
-              "      ${f.name}: this['${f.name}'] as ${f.type}, /*DART TYPE*/");
+              "      ${f.name}: this['$fieldName'] as ${f.type}, /*DART TYPE*/");
         }
       }
     }

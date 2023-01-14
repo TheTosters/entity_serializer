@@ -71,25 +71,22 @@ class EntityExtensionWriter {
     }
 
     for (var f in entity.fields) {
-      // if (f.isOptional) {
-      //   buffer.writeln("      if (${f.name} != null)");
-      //   buffer.write("  "); //indent for next line
-      // }
+      final fieldName = serializer.nameFor(f);
       if (f.isCollection) {
-        buffer.writeln("      '${f.name}': ${collection[f.name]},");
+        buffer.writeln("      '$fieldName': ${collection[f.name]},");
       } else {
         if (serializer.hasSpecialization(f)) {
           final processed = serializer.handleSerialization(f, f.name);
-          buffer.writeln("      '${f.name}': $processed, /*SPECIALIZATION*/");
+          buffer.writeln("      '$fieldName': $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
           if (f.isOptional) {
             buffer.writeln("      if (${f.name} != null)");
-            buffer.writeln("        '${f.name}': ${f.name}!.to${serializer.name}(), /*ENTITY*/");
+            buffer.writeln("        '$fieldName': ${f.name}!.to${serializer.name}(), /*ENTITY*/");
           } else {
-            buffer.writeln("      '${f.name}': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+            buffer.writeln("      '$fieldName': ${f.name}.to${serializer.name}(), /*ENTITY*/");
           }
         } else {
-          buffer.writeln("      '${f.name}': ${f.name}, /*DART TYPE*/");
+          buffer.writeln("      '$fieldName': ${f.name}, /*DART TYPE*/");
         }
       }
     }

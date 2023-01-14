@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="IsoDate">
+        <specialization
+            type="DateTime"
+            serialization="dateTimeToIsoStr"
+            deserialization="dateTimeFromIsoStr"
+            import="package:entity_serializer/entity_serializer.dart"
+            _date="d"
+        />
+    </serializer>
+
+    <serializer name="KeepDate" >
+        <keep type="DateTime"/>
+        <keep type="int" _justInt="i"/>
+    </serializer>
+
+    <class name="TestEntity" copyWith="false">
+        <DateTime name="date"/>
+        <DateTime name="noAlias"/>
+        <int name="justInt"/>
+    </class>
+</spec>

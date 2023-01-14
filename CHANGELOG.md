@@ -1,5 +1,6 @@
 ## 0.0.3
 - Bugfix: optional values generation fix
+- Feature: Serialization field alias per serializer specialization
 
 ## 0.0.2
 
