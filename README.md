@@ -102,6 +102,28 @@ By default serializer can handle Dart types: `int`, `double`, `String`, `bool` a
 classes described in xml. Further specialization how to encode other classes can be done through
 child nodes of serializer. See next paragraphs.
 
+#### Serializer children: aliases
+
+Each specialization per type can have aliases for fields. To add alias used for serialization / 
+deserialization of field just add attribute with name of field with '_' prefix, value is new name
+to be used. Here is example:
+
+```xml
+<spec>
+    <serializer name="KeepDate" >
+        <keep type="DateTime"/>
+        <keep type="int" _justInt="i"/>
+    </serializer>
+
+    <class name="TestEntity" copyWith="false">
+        <DateTime name="date"/>
+        <DateTime name="noAlias"/>
+        <int name="justInt"/>
+    </class>
+</spec>
+```
+as a result serializer `KeepDate` for type `int` will remap all fields named `justInt` into `i`.
+
 #### Serializer children: keep
 
 Serializers converts Dart object instance into `Map<String, dynamic>` using some rules. However 
