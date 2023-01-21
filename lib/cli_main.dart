@@ -57,14 +57,18 @@ ${argsParser.usage}""",
     exit(1);
   } else {
     final document = XmlDocument.parse(xmlFile.readAsStringSync());
-
-    final modelsGenerator = ModelGenerator(from: document);
+    final Model model = Model();
+    ModelGenerator(from: document, model: model, readFileFunc: _readFile);
     final outputGenerator = OutputGenerator(
-      models: modelsGenerator,
+      models: model,
       outputPath: pathToOutput,
       splitByFiles: shouldSplitByFiles,
     );
     outputGenerator.generateOutput();
     print("Done!");
   }
+}
+
+String _readFile(String filename) {
+  throw UnsupportedError("Composition is not supported with cli yet");
 }

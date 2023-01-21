@@ -1,0 +1,5 @@
+<composition>
+    <include file="comp_serializer.xml"/>
+    <include file="comp_entities_1.xml"/>
+    <include file="comp_entities_2.xml"/>
+</composition>

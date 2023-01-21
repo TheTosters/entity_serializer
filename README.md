@@ -11,7 +11,7 @@ frustrating. Unless you don't have very specific needs you probably want to stic
 another great tool which inspired me is [dtogen](https://github.com/qyre-ab/dtogen) check it out
 before trying this one.
 
-## What problem this package is solving?
+# What problem this package is solving?
 
 Mostly my frustration :) I run into problem where I got several data classes and then I needed to
 create a lot of DTO classes. Several for server-client JSON communication and another DTO to have
@@ -20,7 +20,7 @@ MongoDB storage. So when I got for example `Foo` data class I was forced to crea
 I fast got to moment when I need to create a lot of boilerplate code to keep all together and in the
 end my frustration won. This package solves my problem, hope it will be useful to somebody else.
 
-## How it works?
+# How it works?
 
 All data classes (POJO style) should be described in simple xml file. In mentioned file is also
 definition for one or multiple serializers which can operate on data classes. Then you run builder
@@ -31,7 +31,7 @@ Json and for DB, where in both cases some rules of serialization can be differen
 intermediate DTO classes used. Just extensions for `List<dynamic>` and `Map<String, dynamic>` plus 
 extensions for data classes.
 
-## Limitations
+# Limitations
 
 At current moment (and probably future) there is no support to embedded collections. So it's not
 possible to have List of Maps, nor Maps of Maps, etc. If you need such thing please wrap map in some
@@ -41,7 +41,7 @@ developed/extended until all my needs are satisfied, but for sure it will not be
 in the way freezed is. Feel free to make feature request or deliver Pull-Requests if you added
 something which was useful for you.
 
-## CLI version
+# CLI version
 
 Please note existence of `cli_main.dart` file. It allows you to compile and have this tool as a 
 stand alone application, not bound to build_runner. All needed information how to use it is 
@@ -56,8 +56,53 @@ cli_main -s -i data_model/list_test.xml -o sources/
 ```
 
 
-## Xml description
+# Xml description
 
+There are two approaches to describe model:
+- all in one file, use `spec` root node in xml
+- serializers and entities are scattered across several xml files.
+Refer to next sections for more info.
+
+## Multiple XMLs (composition)
+
+If you want to split model into several xml files you need to act as follow:
+1. Define master xml which will point into all components xml which should be included
+2. Define xmls which will contain serializers definitions
+3. Define xmls which will contain entities definitions.
+
+Syntax of xmls for serializers and entities is described in further sections, and it's this same
+as for single xml mode.
+
+### Multiple XMLs: master xml
+
+This file should contain root node named `composition` and then several `include` nodes. Here is
+example:
+```xml
+<composition>
+    <include file="comp_serializer.xml"/>
+    <include file="comp_entities_1.xml"/>
+    <include file="comp_entities_2.xml"/>
+</composition>
+```
+order of includes is not important, Their location is assumed to be in the same folder as master xml.
+
+### Multiple XMLs: serializer xml
+
+In this xml following rules must be meet:
+1. Root node must be named `serializers`
+2. Root node might contain only nodes `serializer` or `serializerTemplate`
+
+Syntax of child nodes is described in other sections of this document.
+
+### Multiple XMLs: entities xml
+
+In this xml following rules must be meet:
+1. Root node must be named `entities`
+2. Root node might contain only nodes `class` or `import`
+
+Syntax of child nodes is described in other sections of this document.
+
+## Single XML
 Here is brief description of xml format used to generate everything. Let's go with some examples
 and descriptions:
 ```xml

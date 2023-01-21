@@ -13,7 +13,7 @@ import 'model_generator.dart';
 class OutputGenerator {
   final bool splitByFiles;
   final String? outputPath;
-  final ModelGenerator models;
+  final Model models;
   final void Function(String)? outputConsumer;
 
   OutputGenerator({

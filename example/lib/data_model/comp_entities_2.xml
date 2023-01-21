@@ -1,0 +1,5 @@
+<entities>
+    <class name="SomethingElse" copyWith="false">
+        <int name="b"/>
+    </class>
+</entities>
