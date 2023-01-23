@@ -1,7 +1,10 @@
 ## 0.0.4
+
 - Feature: compose single model from multiple xml files
+- Improvement: Better handling of int and double in deserialization
 
 ## 0.0.3
+
 - Bugfix: optional values generation fix
 - Feature: Serialization field alias per serializer specialization
 

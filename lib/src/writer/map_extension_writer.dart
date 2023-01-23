@@ -81,8 +81,16 @@ class MapExtensionWriter {
           buffer.writeln(
               "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
         } else {
-          buffer.writeln(
-              "      ${f.name}: this['$fieldName'] as ${f.type}, /*DART TYPE*/");
+          if (f.type.toLowerCase() == "int") {
+            buffer.writeln(
+                "      ${f.name}: (this['$fieldName'] as num).toInt(), /*DART INT TYPE*/");
+          } else if (f.type.toLowerCase() == "double") {
+            buffer.writeln(
+                "      ${f.name}: (this['$fieldName'] as num).toDouble(), /*DART DOUBLE TYPE*/");
+          } else {
+            buffer.writeln(
+                "      ${f.name}: this['$fieldName'] as ${f.type}, /*DART TYPE*/");
+          }
         }
       }
     }
