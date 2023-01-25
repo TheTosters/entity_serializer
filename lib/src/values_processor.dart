@@ -8,6 +8,7 @@ class ValuesProcessor {
   late final bool consumesAll;
   bool usedOnList = false;
   bool usedOnMap = false;
+  bool usedOnDynamic = false;
   Set<String> types = {};
 
   ValuesProcessor(

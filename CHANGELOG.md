@@ -1,3 +1,7 @@
+## 0.0.5
+
+- allow to use field of type dynamic in entities
+
 ## 0.0.4
 
 - Feature: compose single model from multiple xml files

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="Ser"/>
+
+    <class name="EvilDynamic" copyWith="false">
+        <field name="evil" type="dynamic"/>
+        <dynamic name="limitedEvil" expectOnly="EvilOne"/>
+    </class>
+
+    <class name="EvilOne" copyWith="false">
+        <int name="justInt"/>
+    </class>
+
+    <class name="EvilTwo" copyWith="false">
+        <string name="justString"/>
+    </class>
+</spec>

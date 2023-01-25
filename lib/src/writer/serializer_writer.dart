@@ -1,3 +1,4 @@
+import 'package:entity_serializer/src/writer/dynamic_proxy_writter.dart';
 import 'package:entity_serializer/src/writer/import_writer.dart';
 import 'package:recase/recase.dart';
 
@@ -13,6 +14,7 @@ class SerializerWriter {
   final Serializer serializer;
   final List<Entity> entities;
   final List<ValuesProcessor> processors = [];
+  bool needDynamicProxy = false;
 
   SerializerWriter(this.serializer, List<Entity> entities)
       : entities = entities
@@ -50,6 +52,12 @@ class SerializerWriter {
     );
     mapExtWriter.write(buffer);
 
+    //if dynamic proxy required
+    if (needDynamicProxy) {
+      final dynProxyWriter = DynamicProxyWriter(serializer: serializer, processors: processors);
+      dynProxyWriter.write(buffer);
+    }
+
     if (processors.any((element) => element.usedOnList)) {
       final writer =
           ListExtensionWriter(serializer: serializer, processors: processors);
@@ -59,7 +67,7 @@ class SerializerWriter {
 
   void _addProcessorsIfNeeded(Entity ent) {
     for (final f in ent.fields) {
-      if (f.isPlain || f.isValueCustomType) {
+      if ((f.isPlain && f.type != "dynamic") || (!f.isPlain && f.isValueCustomType)) {
         //No processor needed for this case
         continue;
       }
@@ -70,6 +78,9 @@ class SerializerWriter {
       String name = "${serializer.name}_processor_${processors.length}";
       processors.add(
           ValuesProcessor(name: name.pascalCase, field: f, entities: entities));
+      if (f.type == "dynamic") {
+        needDynamicProxy = true;
+      }
     }
   }
 

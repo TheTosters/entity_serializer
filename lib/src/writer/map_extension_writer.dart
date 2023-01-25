@@ -77,9 +77,15 @@ class MapExtensionWriter {
               serializer.handleDeserialization(f, "this['$fieldName']");
           buffer.writeln("      ${f.name}: $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
-          final method = "to_${f.type}_using_${serializer.name}".camelCase;
-          buffer.writeln(
-              "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
+          if (f.type == "dynamic") {
+            final processor = findProcessorFor(f)!;
+            buffer.writeln(
+                "      ${f.name}: dynamicProxyFrom${processor.name}(this['$fieldName']), /*DYNAMIC*/");
+          } else {
+            final method = "to_${f.type}_using_${serializer.name}".camelCase;
+            buffer.writeln(
+                "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
+          }
         } else {
           if (f.type.toLowerCase() == "int") {
             buffer.writeln(

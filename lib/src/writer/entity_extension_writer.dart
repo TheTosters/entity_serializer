@@ -82,13 +82,21 @@ class EntityExtensionWriter {
           final processed = serializer.handleSerialization(f, f.name);
           buffer.writeln("      '$fieldName': $processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
-          if (f.isOptional) {
-            buffer.writeln("      if (${f.name} != null)");
+          if (f.type == "dynamic") {
+            final processor = findProcessorFor(f)!;
+            processor.usedOnDynamic = true;
             buffer.writeln(
-                "        '$fieldName': ${f.name}!.to${serializer.name}(), /*ENTITY*/");
+                "      '$fieldName': dynamicProxyTo${processor.name}(${f.name}), /*DYNAMIC*/");
           } else {
-            buffer.writeln(
-                "      '$fieldName': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+            //Pure custom type
+            if (f.isOptional) {
+              buffer.writeln("      if (${f.name} != null)");
+              buffer.writeln(
+                  "        '$fieldName': ${f.name}!.to${serializer.name}(), /*ENTITY*/");
+            } else {
+              buffer.writeln(
+                  "      '$fieldName': ${f.name}.to${serializer.name}(), /*ENTITY*/");
+            }
           }
         } else {
           buffer.writeln("      '$fieldName': ${f.name}, /*DART TYPE*/");

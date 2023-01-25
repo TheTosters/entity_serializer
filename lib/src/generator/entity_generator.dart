@@ -82,6 +82,7 @@ class EntityGenerator {
         break;
       case "field":
         {
+          final expects = asSplitList(attrValue(node, "expectOnly"));
           var varType = reqAttrValue(node, "type");
           if (varType.endsWith("?")) {
             isOptional = true;
@@ -92,6 +93,7 @@ class EntityGenerator {
             isOptional: isOptional,
             type: varType,
             isFinal: isFinal,
+            expectEntities: expects,
           );
           break;
         }
@@ -100,12 +102,14 @@ class EntityGenerator {
           final xmlName = node.name.toString();
           final rawName =
               isOptional ? xmlName.substring("optional".length) : xmlName;
-          var varType = rawName.pascalCase;
+          var varType = rawName == "dynamic" ? "dynamic" : rawName.pascalCase;
+          final expects = asSplitList(attrValue(node, "expectOnly"));
           result = Field(
             name: optAttrValue(node, "name", rawName.camelCase)!,
             isOptional: isOptional,
             type: varType,
             isFinal: isFinal,
+            expectEntities: expects,
           );
           break;
         }
