@@ -98,7 +98,8 @@ class EntityGenerator {
       default:
         {
           final xmlName = node.name.toString();
-          final rawName = isOptional ? xmlName.substring("optional".length) : xmlName;
+          final rawName =
+              isOptional ? xmlName.substring("optional".length) : xmlName;
           var varType = rawName.pascalCase;
           result = Field(
             name: optAttrValue(node, "name", rawName.camelCase)!,

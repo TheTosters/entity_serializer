@@ -9,9 +9,11 @@ class Serializer {
 
   Serializer({required this.name});
 
-  void addSpecialization(String type, Specialization spec) => _specializations[type] = spec;
+  void addSpecialization(String type, Specialization spec) =>
+      _specializations[type] = spec;
 
-  bool hasSpecialization(Field field) => _specializations.containsKey(_getFieldType(field));
+  bool hasSpecialization(Field field) =>
+      _specializations.containsKey(_getFieldType(field));
 
   String handleSerialization(Field field, String variable) =>
       _specializations[_getFieldType(field)]!.processSerialization(variable);
@@ -19,7 +21,8 @@ class Serializer {
   String handleDeserialization(Field field, String variable) =>
       _specializations[_getFieldType(field)]!.processDeserialization(variable);
 
-  String _getFieldType(Field field) => "${field.type}${field.isOptional ? "?" : ""}";
+  String _getFieldType(Field field) =>
+      "${field.type}${field.isOptional ? "?" : ""}";
 
   void collectImports(ImportWriter collector) {
     for (final spec in _specializations.values) {

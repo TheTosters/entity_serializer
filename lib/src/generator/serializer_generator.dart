@@ -26,7 +26,8 @@ class SerializerGenerator {
           _parseKeepNode(child, result);
           break;
         default:
-          throw Exception("Unknown node '${node.name.toString()}' in serializer '$name'");
+          throw Exception(
+              "Unknown node '${node.name.toString()}' in serializer '$name'");
       }
     }
 
@@ -36,8 +37,10 @@ class SerializerGenerator {
   static void _parseSpecializationNode(XmlElement node, Serializer serializer) {
     final serFunc = attrValue(node, "serialization");
     final deserFunc = attrValue(node, "deserialization");
-    if ((serFunc == null || serFunc.isEmpty) && (deserFunc == null || deserFunc.isEmpty)) {
-      throw Exception("Both 'serialization' and 'deserialization' attributes are empty"
+    if ((serFunc == null || serFunc.isEmpty) &&
+        (deserFunc == null || deserFunc.isEmpty)) {
+      throw Exception(
+          "Both 'serialization' and 'deserialization' attributes are empty"
           " in node '${node.name}', this make no sense.");
     }
     final importPath = reqAttrValue(node, "import");
@@ -61,8 +64,11 @@ class SerializerGenerator {
     serializer.addSpecialization(reqAttrValue(node, "type"), specialization);
   }
 
-  static void _collectFieldsMapping(Specialization specialization, XmlElement node) {
-    node.attributes.where((a) => a.name.toString().startsWith("_")).forEach((a) {
+  static void _collectFieldsMapping(
+      Specialization specialization, XmlElement node) {
+    node.attributes
+        .where((a) => a.name.toString().startsWith("_"))
+        .forEach((a) {
       final key = a.name.toString().substring(1);
       if (key.isNotEmpty) {
         specialization.aliases.putIfAbsent(key, () => a.value);

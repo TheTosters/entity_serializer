@@ -38,7 +38,8 @@ class ModelGenerator {
     } else if (rootName == "entities") {
       _handleEntitiesRoot(from, model);
     } else {
-      throw Exception("Unsupported root: '${from.rootElement.name.toString()}'");
+      throw Exception(
+          "Unsupported root: '${from.rootElement.name.toString()}'");
     }
   }
 
