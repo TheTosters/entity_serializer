@@ -1,6 +1,7 @@
 ## 0.0.5
 
-- allow to use field of type dynamic in entities
+- Feature: allow to use field of type dynamic in entities
+- Bugfix: optional fields properly deserialized
 
 ## 0.0.4
 
