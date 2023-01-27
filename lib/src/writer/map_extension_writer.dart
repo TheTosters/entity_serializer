@@ -42,60 +42,61 @@ class MapExtensionWriter {
     buffer.writeln("    return ${entity.name}(");
     for (var f in entity.fields) {
       final fieldName = serializer.nameFor(f);
+      final optPart = f.isOptional ? "this['$fieldName'] == null ? null : " : "";
       if (f.isList) {
         if (f.isPlain) {
           buffer.writeln(
-              "      ${f.name}: List<${f.valueType}>.from(this['$fieldName'] as List) , /*DART TYPES LIST*/");
+              "      ${f.name}: ${optPart}List<${f.valueType}>.from(this['$fieldName'] as List) , /*DART TYPES LIST*/");
         } else if (f.isValueCustomType) {
           buffer.writeln(
-              "      ${f.name}: (this['$fieldName'] as List<dynamic>) /*CUSTOM TYPE LIST*/");
+              "      ${f.name}: $optPart(this['$fieldName'] as List<dynamic>) /*CUSTOM TYPE LIST*/");
           buffer.writeln(
               "        .map((e) => (e as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())");
           buffer.writeln("        .toList(),");
         } else {
           final processor = findProcessorFor(f)!;
           buffer.writeln(
-              "      ${f.name}: (this['$fieldName'] as List<dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
+              "      ${f.name}: $optPart(this['$fieldName'] as List<dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
         }
       } else if (f.isMap) {
         if (f.isPlain) {
           buffer.writeln(
-              "      ${f.name}: Map<${f.keyType}, ${f.valueType}>.from(this['$fieldName'] as Map) , /*DART TYPES MAP*/");
+              "      ${f.name}: ${optPart}Map<${f.keyType}, ${f.valueType}>.from(this['$fieldName'] as Map) , /*DART TYPES MAP*/");
         } else if (f.isValueCustomType) {
           buffer.writeln(
-              "      ${f.name}: (this['$fieldName'] as Map) /*CUSTOM TYPE MAP*/");
+              "      ${f.name}: $optPart(this['$fieldName'] as Map) /*CUSTOM TYPE MAP*/");
           buffer.writeln(
               "        .map((k,v) => MapEntry(k, (v as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())),");
         } else {
           final processor = findProcessorFor(f)!;
           buffer.writeln(
-              "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
+              "      ${f.name}: $optPart(this['$fieldName'] as Map<String, dynamic>).from${processor.name}(), /*DYNAMIC LIST*/");
         }
       } else {
         if (serializer.hasSpecialization(f)) {
           final processed =
               serializer.handleDeserialization(f, "this['$fieldName']");
-          buffer.writeln("      ${f.name}: $processed, /*SPECIALIZATION*/");
+          buffer.writeln("      ${f.name}: $optPart$processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
           if (f.type == "dynamic") {
             final processor = findProcessorFor(f)!;
             buffer.writeln(
-                "      ${f.name}: dynamicProxyFrom${processor.name}(this['$fieldName']), /*DYNAMIC*/");
+                "      ${f.name}: ${optPart}dynamicProxyFrom${processor.name}(this['$fieldName']), /*DYNAMIC*/");
           } else {
             final method = "to_${f.type}_using_${serializer.name}".camelCase;
             buffer.writeln(
-                "      ${f.name}: (this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
+                "      ${f.name}: $optPart(this['$fieldName'] as Map<String, dynamic>).$method(), /*ENTITY*/");
           }
         } else {
           if (f.type.toLowerCase() == "int") {
             buffer.writeln(
-                "      ${f.name}: (this['$fieldName'] as num).toInt(), /*DART INT TYPE*/");
+                "      ${f.name}: $optPart(this['$fieldName'] as num).toInt(), /*DART INT TYPE*/");
           } else if (f.type.toLowerCase() == "double") {
             buffer.writeln(
-                "      ${f.name}: (this['$fieldName'] as num).toDouble(), /*DART DOUBLE TYPE*/");
+                "      ${f.name}: $optPart(this['$fieldName'] as num).toDouble(), /*DART DOUBLE TYPE*/");
           } else {
             buffer.writeln(
-                "      ${f.name}: this['$fieldName'] as ${f.type}, /*DART TYPE*/");
+                "      ${f.name}: $optPart(this['$fieldName'] as ${f.type}), /*DART TYPE*/");
           }
         }
       }
