@@ -2,6 +2,7 @@
 
 - Feature: allow to use field of type dynamic in entities
 - Bugfix: optional fields properly deserialized
+- Improvement: import attribute now is optional on serializer
 
 ## 0.0.4
 

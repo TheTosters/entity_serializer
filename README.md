@@ -202,7 +202,7 @@ Here is description of attributes:
 - serialization - name of function which should be used to convert `type` into `outType`
 - deserialization - name of function which should be used to convert `outType` into `type`
 - import - from what package/source file functions pointed by `serialization` and `deserialization`
-can be imported
+can be imported, this is optional attribute
 
 ### Node class
 

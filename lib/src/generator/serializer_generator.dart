@@ -43,10 +43,7 @@ class SerializerGenerator {
           "Both 'serialization' and 'deserialization' attributes are empty"
           " in node '${node.name}', this make no sense.");
     }
-    final importPath = reqAttrValue(node, "import");
-    if (importPath.isEmpty) {
-      throw Exception("Attribute 'import' is empty in node '${node.name}'");
-    }
+    final importPath = attrValue(node, "import");
     final type = reqAttrValue(node, "type");
     final specialization = SpecializationConvert(
         inType: type,

@@ -9,12 +9,26 @@ import 'src/model/map_test.dart';
 
 void checkListGen() {
   print("####### checkListGen\n");
-  MyList myList = MyList(
-      integers: [1, 2, 3],
-      strings: ["a", "b"],
-      customType: [MyTypeInList(val: 6), MyTypeInList(val: 3)],
-      dynamicType: [1, 2.4, "a", MyTypeInList(val: 6), MyOtherInList(str: "str")],
-      expDynamicType: [MyTypeInList(val: 36), MyOtherInList(str: "str33")]);
+  MyList myList = MyList(integers: [
+    1,
+    2,
+    3
+  ], strings: [
+    "a",
+    "b"
+  ], customType: [
+    MyTypeInList(val: 6),
+    MyTypeInList(val: 3)
+  ], dynamicType: [
+    1,
+    2.4,
+    "a",
+    MyTypeInList(val: 6),
+    MyOtherInList(str: "str")
+  ], expDynamicType: [
+    MyTypeInList(val: 36),
+    MyOtherInList(str: "str33")
+  ]);
   JsonEncoder encoder = JsonEncoder.withIndent('  ');
   String prettyprint = encoder.convert(myList.toSer1());
   print(prettyprint);
@@ -52,7 +66,13 @@ void checkMapGen() {
     integers: {"a": 1, "b": 2, "c": 3},
     strings: {"a": "1", "b": "2", "c": "3"},
     customType: {"a": MyType(val: 6), "b": MyType(val: 3)},
-    dynamicType: {"a": 1, "b": 2.4, "c": "str", "d": MyType(val: 6), "e": MyOther(str: "str")},
+    dynamicType: {
+      "a": 1,
+      "b": 2.4,
+      "c": "str",
+      "d": MyType(val: 6),
+      "e": MyOther(str: "str")
+    },
     expDynamicType: {"a": MyType(val: 36), "b": MyOther(str: "str33")},
   );
 

@@ -2,14 +2,14 @@ import 'package:entity_serializer/src/model/specialization.dart';
 
 class SpecializationConvert extends Specialization {
   final String inType;
-  final String importPath;
+  final String? importPath;
   final String? serializationFunc;
   final String? deserializationFunc;
   final String outType;
 
   SpecializationConvert({
     required this.inType,
-    required this.importPath,
+    this.importPath,
     required this.serializationFunc,
     required this.deserializationFunc,
     String? outType,
