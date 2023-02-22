@@ -62,7 +62,11 @@ class GeneratorWrapper {
 
   String _readFile(String filename) {
     final filePath = join(inPath, filename);
-    return File(filePath).readAsStringSync();
+    final file = File(filePath);
+    if (!file.existsSync()) {
+      throw Exception("Can't load file: $filePath");
+    }
+    return file.readAsStringSync();
   }
 
   String process() {

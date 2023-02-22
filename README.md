@@ -98,7 +98,7 @@ Syntax of child nodes is described in other sections of this document.
 
 In this xml following rules must be meet:
 1. Root node must be named `entities`
-2. Root node might contain only nodes `class` or `import`
+2. Root node might contain only nodes `class`, `proxy` or `import`
 
 Syntax of child nodes is described in other sections of this document.
 
@@ -214,6 +214,8 @@ attributes are available for this node:
 class. If empty/null then all know serializers are used.
 - generateEntity - optional, default: true. Tells builder if Dart class should be generated. If false
 then only serializers are generated. Class body need to be imported manually.
+- apiProxy - optional, default: empty. This is comma separated list of api proxies which should be
+generated for this entity. See `proxy` node documentation for more info.
 
 To create fields for newly created class child-nodes described later can be added. Each child-node
 support following attributes:
@@ -359,3 +361,45 @@ Please look into this small example:
     </class>
 </spec>
 ```
+
+### Node proxy
+
+When there is need to have methods required by other packages like for example `retrofit` which expect
+to have `json_serializable` methods proxies enter the game. This feature allow generation of
+methods expected by other packages. Currently there is support for following 3rd parties:
+- json_serializable
+
+To enable api proxies add following xml node into your file.
+```xml
+<proxy name="myProxy" type="json_serializable" serializer="MyJson"/>
+```
+where:
+- name - mandatory, name of your proxy. This name need to be given in attribute `apiProxy` of node `class`
+- type - mandatory, predefined types which are supported by this package, listed above.
+- serializer - mandatory, name of serializer which should be wrapped in proxy generated methods.
+
+After adding `proxy` node to xml, it is possible to add to any class node attribute `apiProxy`,
+here is example:
+
+```xml
+<spec>
+    <serializer name="MyJson">
+        <specialization
+            type="DateTime"
+            serialization="dateTimeToIsoStr"
+            deserialization="dateTimeFromIsoStr"
+            import="package:entity_serializer/entity_serializer.dart"
+        />
+    </serializer>
+
+    <proxy name="myProxy" type="json_serializable" serializer="MyJson"/>
+
+    <class name="TestEntity" apiProxy="myProxy">
+        <DateTime name="date"/>
+        <int name="justInt"/>
+    </class>
+</spec>
+```
+
+As a result methods `factory TestEntity.fromJson(Map<String, dynamic> json)` and
+`Map<String, dynamic> toJson()` will be generated for class `TestEntity`.

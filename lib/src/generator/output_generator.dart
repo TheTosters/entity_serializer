@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:entity_serializer/src/writer/api_proxy_writer.dart';
 import 'package:entity_serializer/src/writer/entity_writer.dart';
 import 'package:entity_serializer/src/writer/import_writer.dart';
 import 'package:entity_serializer/src/writer/serializer_writer.dart';
@@ -38,6 +39,7 @@ class OutputGenerator {
 
   void _generateSeparateFiles() {
     final sb = StringBuffer();
+    final proxiesWriter = ApiProxyWriter(models.proxies);
     for (final ent in models.entities) {
       if (!ent.generateEntity) {
         //disabled entity generation at xml level
@@ -55,7 +57,7 @@ class OutputGenerator {
       writer.collectAutoGenImports(importWriter, _createEntityImportPath);
 
       importWriter.writeImports(sb);
-      writer.writeBody(sb);
+      writer.writeBody(buffer: sb, proxiesWriter:proxiesWriter);
       _writeToOutput(buffer: sb, entity: ent);
     }
     for (final s in models.serializers) {
@@ -76,6 +78,7 @@ class OutputGenerator {
   void _generateSingleFile() {
     final sb = StringBuffer();
     final ImportWriter importWriter = ImportWriter();
+    final proxiesWriter = ApiProxyWriter(models.proxies);
     importWriter.addImports(models.imports.map((e) => e.package));
     bool needAutoGenImport = false;
     for (final ent in models.entities) {
@@ -85,7 +88,7 @@ class OutputGenerator {
       }
       final writer = EntityWriter(ent);
       writer.collectExternalImports(importWriter);
-      writer.writeBody(sb);
+      writer.writeBody(buffer:sb, proxiesWriter: proxiesWriter);
       needAutoGenImport |= ent.copyWith;
     }
     for (final s in models.serializers) {

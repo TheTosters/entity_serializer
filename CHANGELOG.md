@@ -1,3 +1,7 @@
+## 0.0.6
+
+- Provide api proxy concept (support for JsonSerializer like methods)
+
 ## 0.0.5
 
 - Feature: allow to use field of type dynamic in entities

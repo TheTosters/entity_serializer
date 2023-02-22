@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<spec>
+    <serializer name="MyJson">
+        <specialization
+            type="DateTime"
+            serialization="dateTimeToIsoStr"
+            deserialization="dateTimeFromIsoStr"
+            import="package:entity_serializer/entity_serializer.dart"
+        />
+    </serializer>
+
+    <proxy name="jj" type="json_serializable" serializer="MyJson"/>
+
+    <class name="TestEntity" copyWith="false" apiProxy="jj">
+        <DateTime name="date"/>
+        <int name="justInt"/>
+    </class>
+</spec>
