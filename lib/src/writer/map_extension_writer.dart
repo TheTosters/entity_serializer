@@ -42,7 +42,8 @@ class MapExtensionWriter {
     buffer.writeln("    return ${entity.name}(");
     for (var f in entity.fields) {
       final fieldName = serializer.nameFor(f);
-      final optPart = f.isOptional ? "this['$fieldName'] == null ? null : " : "";
+      final optPart =
+          f.isOptional ? "this['$fieldName'] == null ? null : " : "";
       if (f.isList) {
         if (f.isPlain) {
           buffer.writeln(
@@ -76,7 +77,8 @@ class MapExtensionWriter {
         if (serializer.hasSpecialization(f)) {
           final processed =
               serializer.handleDeserialization(f, "this['$fieldName']");
-          buffer.writeln("      ${f.name}: $optPart$processed, /*SPECIALIZATION*/");
+          buffer.writeln(
+              "      ${f.name}: $optPart$processed, /*SPECIALIZATION*/");
         } else if (f.isCustomType) {
           if (f.type == "dynamic") {
             final processor = findProcessorFor(f)!;

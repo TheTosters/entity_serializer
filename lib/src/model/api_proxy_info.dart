@@ -9,5 +9,8 @@ class ApiProxyInfo {
   ///Which serializer should be used in this proxy.
   final String serializerName;
 
-  ApiProxyInfo({required this.alias, required this.proxyType, required this.serializerName});
+  ApiProxyInfo(
+      {required this.alias,
+      required this.proxyType,
+      required this.serializerName});
 }

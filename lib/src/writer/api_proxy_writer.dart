@@ -10,7 +10,8 @@ const Map<String, ApiProxyDedicatedWriter> proxies = {
 class ApiProxyWriter {
   final Map<String, ApiProxyInfo> definedProxies;
 
-  ApiProxyWriter(List<ApiProxyInfo> proxies) : definedProxies = {for (var e in proxies) e.alias: e};
+  ApiProxyWriter(List<ApiProxyInfo> proxies)
+      : definedProxies = {for (var e in proxies) e.alias: e};
 
   void writeProxyMethods({
     required Entity entity,
@@ -19,11 +20,13 @@ class ApiProxyWriter {
   }) {
     final proxyData = definedProxies[proxyAlias];
     if (proxyData == null) {
-      throw Exception("Can't write API proxy, unknown proxy definition with alias: $proxyAlias");
+      throw Exception(
+          "Can't write API proxy, unknown proxy definition with alias: $proxyAlias");
     }
     final writer = proxies[proxyData.proxyType];
     if (writer == null) {
-      throw Exception("Can't write API proxy, unknown proxy type with alias: $proxyAlias");
+      throw Exception(
+          "Can't write API proxy, unknown proxy type with alias: $proxyAlias");
     }
     writer.writeProxyMethods(entity: entity, buffer: buffer, proxy: proxyData);
     buffer.writeln();

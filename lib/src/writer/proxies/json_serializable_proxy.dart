@@ -11,11 +11,15 @@ class JsonSerializableProxy extends ApiProxyDedicatedWriter {
     required StringBuffer buffer,
     required ApiProxyInfo proxy,
   }) {
-    buffer.writeln("  //proxy: json_serializable using '${proxy.serializerName}' serializer");
-    buffer.writeln("  factory ${entity.name}.fromJson(Map<String, dynamic> json) {");
-    buffer.writeln("    return json.to${entity.name}Using${proxy.serializerName}();");
+    buffer.writeln(
+        "  //proxy: json_serializable using '${proxy.serializerName}' serializer");
+    buffer.writeln(
+        "  factory ${entity.name}.fromJson(Map<String, dynamic> json) {");
+    buffer.writeln(
+        "    return json.to${entity.name}Using${proxy.serializerName}();");
     buffer.writeln("  }");
     buffer.writeln();
-    buffer.writeln("  Map<String, dynamic> toJson() => to${proxy.serializerName}();");
+    buffer.writeln(
+        "  Map<String, dynamic> toJson() => to${proxy.serializerName}();");
   }
 }

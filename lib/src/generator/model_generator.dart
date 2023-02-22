@@ -41,7 +41,8 @@ class ModelGenerator {
     } else if (rootName == "entities") {
       _handleEntitiesRoot(from, model);
     } else {
-      throw Exception("Unsupported root: '${from.rootElement.name.toString()}'");
+      throw Exception(
+          "Unsupported root: '${from.rootElement.name.toString()}'");
     }
   }
 
@@ -67,13 +68,15 @@ class ModelGenerator {
       if (name == "serializer") {
         final ser = SerializerGenerator.parseNode(node);
         if (model.serializers.any((element) => element.name == ser.name)) {
-          throw Exception("Serializer with name '${ser.name} is already defined!");
+          throw Exception(
+              "Serializer with name '${ser.name} is already defined!");
         }
         model.serializers.add(ser);
       } else if (name == "serializertemplate") {
         final ser = SerializerGenerator.parseNode(node);
         if (serializerTemplates.any((element) => element.name == ser.name)) {
-          throw Exception("Serializer template with name '${ser.name} is already defined!");
+          throw Exception(
+              "Serializer template with name '${ser.name} is already defined!");
         }
         serializerTemplates.add(SerializerGenerator.parseNode(node));
       } else {
@@ -100,7 +103,8 @@ class ModelGenerator {
       } else if (name == "proxy") {
         final proxy = ApiProxyGenerator.parseNode(node);
         if (model.proxies.any((element) => element.alias == proxy.alias)) {
-          throw Exception("Api proxy with name '${proxy.alias} is already defined!");
+          throw Exception(
+              "Api proxy with name '${proxy.alias} is already defined!");
         }
         model.proxies.add(proxy);
       } else {
@@ -122,13 +126,15 @@ class ModelGenerator {
       } else if (name == "serializer") {
         final ser = SerializerGenerator.parseNode(node);
         if (model.serializers.any((element) => element.name == ser.name)) {
-          throw Exception("Serializer with name '${ser.name} is already defined!");
+          throw Exception(
+              "Serializer with name '${ser.name} is already defined!");
         }
         model.serializers.add(ser);
       } else if (name == "serializertemplate") {
         final ser = SerializerGenerator.parseNode(node);
         if (serializerTemplates.any((element) => element.name == ser.name)) {
-          throw Exception("Serializer template with name '${ser.name} is already defined!");
+          throw Exception(
+              "Serializer template with name '${ser.name} is already defined!");
         }
         serializerTemplates.add(SerializerGenerator.parseNode(node));
       } else if (name == "import") {
@@ -136,7 +142,8 @@ class ModelGenerator {
       } else if (name == "proxy") {
         final proxy = ApiProxyGenerator.parseNode(node);
         if (model.proxies.any((element) => element.alias == proxy.alias)) {
-          throw Exception("Api proxy with name '${proxy.alias} is already defined!");
+          throw Exception(
+              "Api proxy with name '${proxy.alias} is already defined!");
         }
         model.proxies.add(proxy);
       } else {

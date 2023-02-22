@@ -11,7 +11,8 @@ class EntityWriter {
 
   void collectExternalImports(ImportWriter collector) {
     if (entity.copyWith) {
-      collector.addImport("package:copy_with_extension/copy_with_extension.dart");
+      collector
+          .addImport("package:copy_with_extension/copy_with_extension.dart");
     }
   }
 
@@ -29,12 +30,14 @@ class EntityWriter {
     String Function(String name) createEntityFilePath,
   ) {
     if (entity.copyWith) {
-      final path = createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
+      final path =
+          createEntityFilePath(entity.name).replaceFirst(".dart", ".g.dart");
       collector.addPart(path);
     }
   }
 
-  void writeBody({required StringBuffer buffer, required ApiProxyWriter proxiesWriter}) {
+  void writeBody(
+      {required StringBuffer buffer, required ApiProxyWriter proxiesWriter}) {
     if (entity.copyWith) {
       buffer.writeln("@CopyWith()");
     }
@@ -45,8 +48,9 @@ class EntityWriter {
     buffer.writeln();
     _writeConstructor(entity, buffer);
     buffer.writeln();
-    for(final proxyAlias in entity.apiProxies) {
-      proxiesWriter.writeProxyMethods(entity: entity, buffer: buffer, proxyAlias: proxyAlias);
+    for (final proxyAlias in entity.apiProxies) {
+      proxiesWriter.writeProxyMethods(
+          entity: entity, buffer: buffer, proxyAlias: proxyAlias);
     }
     buffer.writeln('}\n');
   }
@@ -60,7 +64,8 @@ class EntityWriter {
     if (f.isList) {
       buffer.writeln("  ${fStr}List<${f.valueType}>$optStr ${f.name};");
     } else if (f.isMap) {
-      buffer.writeln("  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
+      buffer.writeln(
+          "  ${fStr}Map<${f.keyType}, ${f.valueType}>$optStr ${f.name};");
     } else {
       //plain field
       buffer.writeln("  $fStr${f.type}$optStr ${f.name};");

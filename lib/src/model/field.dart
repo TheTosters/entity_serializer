@@ -17,7 +17,14 @@ class Field {
 
   String? comment;
 
-  static const Set<String> innerDartTypes = {"int", "bool", "double", "String", "Map", "List"};
+  static const Set<String> innerDartTypes = {
+    "int",
+    "bool",
+    "double",
+    "String",
+    "Map",
+    "List"
+  };
 
   Field(
       {required this.name,
@@ -54,7 +61,8 @@ class Field {
 
   bool get isCustomType => !innerDartTypes.contains(type);
 
-  bool get isValueCustomType => (!isValueTypeDynamic) && (!innerDartTypes.contains(valueType!));
+  bool get isValueCustomType =>
+      (!isValueTypeDynamic) && (!innerDartTypes.contains(valueType!));
 
   bool get isValueTypeDynamic => valueType == 'dynamic';
 

@@ -9,11 +9,10 @@ import '../model/field.dart';
 class EntityGenerator {
   static Entity parseNode(XmlElement node) {
     final result = Entity(
-      name: reqAttrValue(node, "name"),
-      copyWith: asBool(optAttrValue(node, "copyWith", "true")),
-      generateEntity: asBool(optAttrValue(node, "generateEntity", "true")),
-      apiProxies: asSplitList(attrValue(node, "apiProxy"))
-    );
+        name: reqAttrValue(node, "name"),
+        copyWith: asBool(optAttrValue(node, "copyWith", "true")),
+        generateEntity: asBool(optAttrValue(node, "generateEntity", "true")),
+        apiProxies: asSplitList(attrValue(node, "apiProxy")));
     final serializers = attrValue(node, "serializers");
     if (serializers != null && serializers.trim().isNotEmpty) {
       result.serializers.addAll(asSplitList(serializers));

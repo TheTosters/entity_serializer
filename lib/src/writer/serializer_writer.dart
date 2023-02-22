@@ -54,7 +54,8 @@ class SerializerWriter {
 
     //if dynamic proxy required
     if (needDynamicProxy) {
-      final dynProxyWriter = DynamicProxyWriter(serializer: serializer, processors: processors);
+      final dynProxyWriter =
+          DynamicProxyWriter(serializer: serializer, processors: processors);
       dynProxyWriter.write(buffer);
     }
 
@@ -67,7 +68,8 @@ class SerializerWriter {
 
   void _addProcessorsIfNeeded(Entity ent) {
     for (final f in ent.fields) {
-      if ((f.isPlain && f.type != "dynamic") || (!f.isPlain && f.isValueCustomType)) {
+      if ((f.isPlain && f.type != "dynamic") ||
+          (!f.isPlain && f.isValueCustomType)) {
         //No processor needed for this case
         continue;
       }

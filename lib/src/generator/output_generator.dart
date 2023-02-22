@@ -57,7 +57,7 @@ class OutputGenerator {
       writer.collectAutoGenImports(importWriter, _createEntityImportPath);
 
       importWriter.writeImports(sb);
-      writer.writeBody(buffer: sb, proxiesWriter:proxiesWriter);
+      writer.writeBody(buffer: sb, proxiesWriter: proxiesWriter);
       _writeToOutput(buffer: sb, entity: ent);
     }
     for (final s in models.serializers) {
@@ -88,7 +88,7 @@ class OutputGenerator {
       }
       final writer = EntityWriter(ent);
       writer.collectExternalImports(importWriter);
-      writer.writeBody(buffer:sb, proxiesWriter: proxiesWriter);
+      writer.writeBody(buffer: sb, proxiesWriter: proxiesWriter);
       needAutoGenImport |= ent.copyWith;
     }
     for (final s in models.serializers) {
