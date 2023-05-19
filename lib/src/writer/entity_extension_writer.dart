@@ -38,7 +38,11 @@ class EntityExtensionWriter {
         if (f.isPlain) {
           //this collection will handle only int, double, bool, String
           //nothing is needed to be done
-          collection[f.name] = "${f.name} /*PLAIN*/";
+          if (f.isMap && f.keyType != null && f.keyType != "String") {
+            collection[f.name] = "${f.name}.map((k,v) => MapEntry(k.toString(),v)) /*DART MAP TO JSON*/";
+          } else {
+            collection[f.name] = "${f.name} /*PLAIN*/";
+          }
         } else {
           if (f.isValueTypeDynamic) {
             //this collection contain dynamic values, we will process values using specialized
@@ -59,8 +63,9 @@ class EntityExtensionWriter {
                 collection[f.name] =
                     "${_fieldAccess(f)}.map((v) => v.to${serializer.name}()).toList() /*EXPECTED*/";
               } else if (f.isMap) {
+                final toString = (f.keyType != null && f.keyType != "String") ? ".toString()" : "";
                 collection[f.name] =
-                    "${_fieldAccess(f)}.map((k, v) => MapEntry(k, v.to${serializer.name}())) /*EXPECTED*/";
+                    "${_fieldAccess(f)}.map((k, v) => MapEntry(k$toString, v.to${serializer.name}())) /*EXPECTED*/";
               } else {
                 throw Exception("Internal error");
               }

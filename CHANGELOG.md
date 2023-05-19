@@ -1,6 +1,7 @@
 ## 0.0.6
 
 - Provide api proxy concept (support for JsonSerializer like methods)
+- Provide support for Map<int, dynamic> JSON serialization
 
 ## 0.0.5
 

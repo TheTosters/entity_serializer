@@ -61,13 +61,15 @@ class MapExtensionWriter {
         }
       } else if (f.isMap) {
         if (f.isPlain) {
+          final postProcess = f.keyType == "int" ? ".map((k,v) => MapEntry(int.parse(k), v))" : "";
           buffer.writeln(
-              "      ${f.name}: ${optPart}Map<${f.keyType}, ${f.valueType}>.from(this['$fieldName'] as Map) , /*DART TYPES MAP*/");
+              "      ${f.name}: ${optPart}Map<${f.keyType}, ${f.valueType}>.from((this['$fieldName'] as Map)$postProcess) , /*DART TYPES MAP*/");
         } else if (f.isValueCustomType) {
+          final key = f.keyType == "int" ? "int.parse(k)" : "k";
           buffer.writeln(
               "      ${f.name}: $optPart(this['$fieldName'] as Map) /*CUSTOM TYPE MAP*/");
           buffer.writeln(
-              "        .map((k,v) => MapEntry(k, (v as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())),");
+              "        .map((k,v) => MapEntry($key, (v as Map<String, dynamic>).to${f.valueType}Using${serializer.name}())),");
         } else {
           final processor = findProcessorFor(f)!;
           buffer.writeln(
