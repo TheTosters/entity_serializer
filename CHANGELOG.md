@@ -1,3 +1,7 @@
+## 0.0.8
+
+- Bugfix: proper handling of serializer specialization in map for custom value type
+
 ## 0.0.7
 
 - Provide attribute `mixin` for node class. Which allow to build classes with mixins
