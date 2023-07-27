@@ -1,3 +1,7 @@
+## 0.0.7
+
+- Provide attribute `mixin` for node class. Which allow to build classes with mixins
+
 ## 0.0.6
 
 - Provide api proxy concept (support for JsonSerializer like methods)

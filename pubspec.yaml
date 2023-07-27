@@ -1,6 +1,6 @@
 name: entity_serializer
 description: CLI and Builder tool for creating entities classes and serializers from xml description.
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/TheTosters/entity_serializer
 repository: https://github.com/TheTosters/entity_serializer
 
@@ -21,4 +21,4 @@ dev_dependencies:
   test: ^1.16.0
   build_runner: ^2.3.3
   build_config: ^1.1.1
-  copy_with_extension_gen: ^5.0.0
+  copy_with_extension_gen: ^5.0.3

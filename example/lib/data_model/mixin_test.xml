@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<spec>
+    <import package="../my_mixin.dart"/>
+
+    <class name="SomethingWithMixin" mixin="MyMixin">
+        <int name="a"/>
+    </class>
+</spec>

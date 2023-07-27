@@ -216,6 +216,8 @@ class. If empty/null then all know serializers are used.
 then only serializers are generated. Class body need to be imported manually.
 - apiProxy - optional, default: empty. This is comma separated list of api proxies which should be
 generated for this entity. See `proxy` node documentation for more info.
+- mixin - optional, default: empty. This is comma separated list of mixins which will be added class
+definition.
 
 To create fields for newly created class child-nodes described later can be added. Each child-node
 support following attributes:
