@@ -41,7 +41,8 @@ class EntityWriter {
     if (entity.copyWith) {
       buffer.writeln("@CopyWith()");
     }
-    final mixinSection = entity.mixins.isNotEmpty ? "with ${entity.mixins.join(', ')}" : "";
+    final mixinSection =
+        entity.mixins.isNotEmpty ? "with ${entity.mixins.join(', ')}" : "";
     buffer.writeln('class ${entity.name} $mixinSection {');
     for (var f in entity.fields) {
       _writeField(f, buffer);

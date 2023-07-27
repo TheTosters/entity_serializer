@@ -15,11 +15,19 @@ class Serializer {
   bool hasSpecialization(Field field) =>
       _specializations.containsKey(_getFieldType(field));
 
+  bool hasValueSpecialization(Field field) => _specializations.containsKey(field.valueType);
+
   String handleSerialization(Field field, String variable) =>
       _specializations[_getFieldType(field)]!.processSerialization(variable);
 
+  String handleValueSerialization(Field field, String variable) =>
+      _specializations[field.valueType]!.processSerialization(variable);
+
   String handleDeserialization(Field field, String variable) =>
       _specializations[_getFieldType(field)]!.processDeserialization(variable);
+
+  String handleValueDeserialization(Field field, String variable) =>
+      _specializations[field.valueType]!.processDeserialization(variable);
 
   String _getFieldType(Field field) =>
       "${field.type}${field.isOptional ? "?" : ""}";

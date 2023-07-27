@@ -101,7 +101,8 @@ class EntityGenerator {
       default:
         {
           final xmlName = node.name.toString();
-          final rawName = isOptional ? xmlName.substring("optional".length) : xmlName;
+          final rawName =
+              isOptional ? xmlName.substring("optional".length) : xmlName;
           var varType = rawName == "dynamic" ? "dynamic" : rawName.pascalCase;
           final expects = asSplitList(attrValue(node, "expectOnly"));
           result = Field(
@@ -128,7 +129,9 @@ class EntityGenerator {
     var isPlain = asBool(optAttrValue(node, "plain", "true"));
     final expects = asSplitList(attrValue(node, "expectOnly"));
     final innerType = reqAttrValue(node, "innerType");
-    if (expects.isNotEmpty || innerType == "dynamic" || !Field.innerDartTypes.contains(innerType)) {
+    if (expects.isNotEmpty ||
+        innerType == "dynamic" ||
+        !Field.innerDartTypes.contains(innerType)) {
       isPlain = false;
     }
     return Field.list(
@@ -150,7 +153,9 @@ class EntityGenerator {
     var isPlain = asBool(optAttrValue(node, "plain", "true"));
     final expects = asSplitList(attrValue(node, "expectOnly"));
     final innerType = reqAttrValue(node, "valueType");
-    if (expects.isNotEmpty || innerType == "dynamic" || !Field.innerDartTypes.contains(innerType)) {
+    if (expects.isNotEmpty ||
+        innerType == "dynamic" ||
+        !Field.innerDartTypes.contains(innerType)) {
       isPlain = false;
     }
     return Field.map(
